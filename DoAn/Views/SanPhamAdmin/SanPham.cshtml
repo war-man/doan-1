@@ -1,0 +1,426 @@
+﻿
+@{
+    ViewBag.Title = "SanPham";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+@model DoAn.Models.Model.Admin.SanPhamModel
+<div class="container">
+    <div class="danhsachsanpham">
+        
+        <div class="row">
+            <div class="col-md-10 row">
+                <div class="col-md-1"></div>
+                <input type="text" name="txtSearch" placeholder="Tìm kiếm" class="txtSearch form-control col-md-7" />
+                <div class="col-md-1"></div>
+                <button type="button" class="btn btn-warning" id="search" >Search</button>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="col-md-2">
+                <button type="button" id="themsanpham" class="btn btn-primary" data-toggle="modal" data-target="#modalsanpham" onclick="clearTextBox()">Thêm sản phẩm mới</button><br /><br />
+            </div>
+        </div>
+
+
+
+        <table class="table table-bordered table-hover" width="100%">
+            <thead>
+                <tr>
+                    <th width="5%">
+                        STT
+                    </th>
+                    <th width="25%">
+                        Tên sản phẩm
+                    </th>
+                    <th width="15%">
+                        Hình ảnh
+                    </th>
+                    <th width="20%">
+                        Tên loại
+                    </th>
+                    <th width="15%">
+                        Giá bán
+                    </th>
+                    <th width="15%">
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="tbody"></tbody>
+        </table>
+        <div class="card-footer">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination" id="load-pagination"></ul>
+            </nav>
+        </div>
+    </div>
+   
+</div>
+
+
+
+
+<div class="modal fade " id="modalsanpham" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="closemodalsanpham" data-dismiss="modal">×</button>
+                <h4 class="modal-title" id="myModalLabel">Thêm sản phẩm mới</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="text" class="form-control" id="idsanphamadmin" placeholder="" style="display:none;" />
+                    <div class="form-group row">
+                        <label for="NoiDung" class="col-md-3">Tên sản phẩm</label>
+                        <input type="text" class="form-control col-md-8" id="tensanphamadmin" placeholder="tên sản phẩm" />
+                        <div class="col-md-1"></div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="Age" class="col-md-3">Loại sản phẩm</label>
+                        @Html.DropDownListFor(model => model.MaLoai, Model.SelectMaLoai, "--------Chọn loại sản phẩm----------", htmlAttributes: new { @class = "form-control col-md-8" })
+                        <div class="col-md-1"></div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="HinhAnh" class="col-md-3">Hình ảnh</label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.Anh, new { htmlAttributes = new { @class = "form-control" }, @id = "hinhanhsanphamadmin", @name = "picture", @style = "display:none;" })
+                           
+                            <input type="file" name="fileUpload" accept="image/*" value="" id="picture" style="display:none;" />
+
+
+                            <div class="row">
+                                <div class="col-xl-3">
+                                    <input type="button" name="name" value="Chọn ảnh" id="btnUpload" class="btn btn-success" />
+                                </div>
+                                <div class="col-xl-9"><img id="pictureUpload" width="200" /></div>
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label for="GiaBan" class="col-md-3">Giá bán</label>
+                        <input type="text" class="form-control col-md-8" id="giabansanphamadmin" placeholder="giá bán" name="tiente" />
+                        <div class="col-md-1"></div>
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnAdd">Add</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnUpdate" style="display:none;">Update</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="btnclosesanpham">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section sanphamadmin{
+    <script>
+
+
+        $('input[name="tiente"]').on('input', function (e) {
+            $(this).val(formatCurrency(this.value.replace(/[,]/g, '')));
+        }).on('keypress', function (e) {
+            if (!$.isNumeric(String.fromCharCode(e.which))) e.preventDefault();
+        }).on('paste', function (e) {
+            var cb = e.originalEvent.clipboardData || window.clipboardData;
+            if (!$.isNumeric(cb.getData('text'))) e.preventDefault();
+        });
+
+        function formatCurrency(number) {
+            var n = number.split('').reverse().join("");
+            var n2 = n.replace(/\d\d\d(?!$)/g, "$&,");
+            return n2.split('').reverse().join('');
+        }
+
+
+
+        $(document).ready(function (e) {
+
+            loaddata(null,1);
+        });
+        function loaddata(txtSeach, page) {
+            
+            $.ajax({
+                url: "/SanPhamAdmin/List",
+                type: "GET",
+                data: { txtSearch: txtSeach, page: page },
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    var html = '';
+                    $.each(result.data, function (key, item) {
+                        html += '<tr>';
+                        html += '<td width="5%" class="table-center">' + item.STT+ '</td>';
+                        html += '<td width="25%">' + item.Ten + '</td>';
+                        
+                        html += '<td width="15%"  class="table-center"> <img width="50%" src="/Content/images/' + item.Anh + '"/> </td>';
+                        html += '<td width="20%">' + item.TenLoai + '</td>';
+                        html += '<td width="15%"  class="table-center">' + item.GiaBan+ 'đ</td>';
+                        html += '<td width="15%">  <a href="#"   onclick="getbyID(' + item.Id + ')">Sửa</a> | <a href="#"  onclick="Delele(' + item.Id + ')">Xóa</a></td>';
+                        html += '</tr>';
+                        var pagination_string = "";
+                        var pageCurrent = result.pageCurrent;
+                        var numSize = result.numSize;
+
+                        //create button previous
+                        if (pageCurrent > 1) {
+                            var pagePrevious = pageCurrent - 1;
+                            pagination_string += '<li class="page-item"><a href="" class="page-link" data-page=' + pagePrevious + '>Previous</a></li>';
+                        }
+
+                        for (i = 1; i <= numSize; i++) {
+                            if (i == pageCurrent) {
+                                pagination_string += '<li class="page-item active"><a href="" class="page-link" data-page=' + i + '>' + pageCurrent + '</a></li>';
+                            } else {
+                                pagination_string += '<li class="page-item"><a href="" class="page-link" data-page=' + i + '>' + i + '</a></li>';
+                            }
+                        }
+
+                        //create button next
+                        if (pageCurrent > 0 && pageCurrent < numSize) {
+                            var pageNext = pageCurrent + 1;
+                            pagination_string += '<li class="page-item"><a href="" class="page-link"  data-page=' + pageNext + '>Next</a></li>';
+                        }
+
+                        //load pagination
+                        $("#load-pagination").html(pagination_string);
+
+                    });
+                    $('.tbody').html(html);
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+        $("body").on("click", ".pagination li a", function (event) {
+            event.preventDefault();
+            var page = $(this).attr('data-page');
+
+            //load event pagination
+            var txtSearch = $(".txtSearch").val();
+            if (txtSearch != "") {
+                loaddata(txtSearch, page)
+            }
+            else {
+                loaddata(null, page);
+            }
+
+        });
+        $("#search").click(function () {
+            var txtSearch = $(".txtSearch").val();
+            if (txtSearch != "") {
+                loaddata(txtSearch, 1)
+            }
+            else {
+                loaddata(null, 1);
+            }
+
+        });
+
+        $('#btnUpload').click(function () {
+            $('#picture').trigger('click');
+        });
+        $('#picture').change(function () {
+            if (window.FormData !== undefined) {
+                var fileUpload = $('#picture').get(0);
+                var files = fileUpload.files;
+                var formData = new FormData();
+                formData.append('file', files[0]);
+                $.ajax(
+                    {
+                        type: 'POST',
+                        url: '/SanPhamAdmin/ProcessUpload',
+                        contentType: false,
+                        processData: false,
+                        data: formData,
+                        success: function (urlImage) {
+                            $('#pictureUpload').attr('src', '/Content/images/' + urlImage)
+
+                            $('#hinhanhsanphamadmin').val(urlImage);
+                        },
+                        error: function (err) {
+                            alert('Có lỗi khi upload:' + err.statusText);
+                        }
+
+                    })
+            }
+        });
+
+        
+
+
+
+        $('#btnAdd').click(function () {
+            
+            var maloai = $("#MaLoai").find(":selected").val();
+            var res = validate();
+            if (res == false) {
+                return false;
+            }
+            var empObj = {
+                Ten: $('#tensanphamadmin').val(),
+                Anh: $('#hinhanhsanphamadmin').val(),
+                GiaBan: $('#giabansanphamadmin').val(),
+                MaLoai: maloai,
+            };
+            $.ajax({
+                url: "/SanPhamAdmin/Add",
+                data: JSON.stringify(empObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+
+                    loaddata(null, 1);
+                    alert('Bạn đã thêm mới thành công');
+
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        });
+
+        function getbyID(masanpham) {
+            $('#tensanphamadmin').css('border-color', 'lightgrey');
+            $('#giasanphamadmin').css('border-color', 'lightgrey');
+            
+            $('#MaLoai').css('border-color', 'lightgrey');
+            
+            
+            $.ajax({
+                url: "/SanPhamAdmin/GetbyID/" + masanpham,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (result) {
+                    $('#themsanpham').click();
+                    $('#idsanphamadmin').val(result.Id);
+                    $('#tensanphamadmin').val(result.TenSanPham);
+                    $('#giabansanphamadmin').val(result.GiaBan);
+                    $('#hinhanhsanphamadmin').val(result.Anh);
+                    $('#MaLoai option[value=' + result.MaLoaiSanPham + ']').attr('selected', 'selected');
+                    $('#pictureUpload').attr('src', '/Content/images/' + result.Anh);
+                    $('#btnUpdate').show();
+                    $('#btnAdd').hide();
+                    $('#myModalLabel').text('Sửa thông tin sản phẩm');
+                    
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+            return false;
+            
+        }
+        
+        $('#btnUpdate').click(function () {
+            var maloaisanpham = $("#MaLoai").find(":selected").val();
+            var res = validate();
+            if (res == false) {
+                return false;
+            }
+            var empObj = {
+                Id : $('#idsanphamadmin').val(),
+                Ten: $('#tensanphamadmin').val(),
+                Anh: $('#hinhanhsanphamadmin').val(),
+                GiaBan: $('#giabansanphamadmin').val(),
+                MaLoai: maloaisanpham,
+            };
+            $.ajax({
+                url: "/SanPhamAdmin/Update",
+                data: JSON.stringify(empObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    loaddata(null, 1);
+                    alert('Bạn đã sửa thông tin sản phẩm thành công');
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        });
+        function Delele(ID) {
+            var ans = confirm("Bạn có chắc muốn xóa không?");
+            if (ans) {
+                $.ajax({
+                    url: "/SanPhamAdmin/Delete/" + ID,
+                    type: "POST",
+                    contentType: "application/json;charset=UTF-8",
+                    dataType: "json",
+                    success: function (result) {
+                        loaddata(null, 1);
+                        alert('Bạn đã xóa sản phẩm thành công');
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    }
+                });
+            }
+        }  
+
+        function clearTextBox() {
+
+            $('#idsanphamadmin').val("");
+            $('#tensanphamadmin').val("");
+            $('#giabansanphamadmin').val("");
+            $('#hinhanhsanphamadmin').val("");
+            $('#pictureUpload').attr('src', '');
+            $('#myModalLabel').text('Thêm sản phẩm mới');
+            $('#btnUpdate').hide();
+            $('#btnAdd').show();
+        }
+        //Valdidation using jquery
+        function validate() {
+            var isValid = true;
+            if ($('#tensanphamadmin').val()== "") {
+                $('#tensanphamadmin').css('border-color', 'Red');
+                isValid = false;
+            }
+            else {
+                $('#tensanphamadmin').css('border-color', 'lightgrey');
+            }
+
+
+            if ($('#giabansanphamadmin').val() == "") {
+                $('#giabansanphamadmin').css('border-color', 'Red');
+                isValid = false;
+            }
+            else {
+                $('#giabansanphamadmin').css('border-color', 'lightgrey');
+            }
+
+
+
+            var maloai = $("#MaLoai").find(":selected").val();
+            if (maloai == "") {
+                
+                isValid = false;
+            }
+            else {
+                
+            }
+
+
+            if ($('#hinhanhsanphamadmin').val() == "") {
+                $('#hinhanhsanphamadmin').css('border-color', 'Red');
+                isValid = false;
+            }
+            else {
+                $('#hinhanhsanphamadmin').css('border-color', 'lightgrey');
+            }
+
+            return isValid;
+        }
+    </script>
+
+}
+

@@ -1,0 +1,27 @@
+﻿@model List<DoAn.Models.EF.GioHang>
+@{
+    var session = (DoAn.Common.Session.UserLogin)Session[DoAn.Common.Constants.USER_SESSION];
+}
+@if (session == null)
+{
+
+}
+else
+{
+    if (@ViewBag.CountItem != null)
+    {
+        <div class="shopping-card">
+            <a href="/Cart/Index"><i class="fas fa-shopping-cart"></i><span class="itemgiohang">@ViewBag.CountItem-item</span></a>
+        </div>
+    }
+    else
+    {
+        <div class="shopping-card">
+            <a href="/SanPham/Index"><i class="fas fa-shopping-cart"></i><span class="itemgiohang">0-item</span></a>
+        </div>
+    }
+}
+
+
+
+
