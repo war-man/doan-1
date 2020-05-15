@@ -16,25 +16,34 @@ namespace DoAn.Controllers.Admin
         TraSuaEntities db = new TraSuaEntities();
         public ActionResult Index(int? page)
         {
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
-            var model = new List<KhuyenMaiModel>();
-            var list = db.KhuyenMais.ToList();
-            var i = 0;
-            foreach (var item in list)
+            var session = (DoAn.Common.Session.UserLogin)Session[DoAn.Common.Constants.USER_SESSION];
+            if (session != null)
             {
-                i++;
-                var khuyenmai = new KhuyenMaiModel();
-                khuyenmai.STT = i;
-                khuyenmai.Id = item.Id;
-                khuyenmai.Ten = item.TenKhuyenMai;
-                khuyenmai.PhanTram = item.PhanTram;
-                khuyenmai.NgayBatDau = item.NgayBatDau;
-                khuyenmai.NgayKetThuc = item.NgayKetThuc;
-                khuyenmai.Status = item.Status;
-                model.Add(khuyenmai);
+                int pageSize = 10;
+                int pageNumber = (page ?? 1);
+                var model = new List<KhuyenMaiModel>();
+                var list = db.KhuyenMais.ToList();
+                var i = 0;
+                foreach (var item in list)
+                {
+                    i++;
+                    var khuyenmai = new KhuyenMaiModel();
+                    khuyenmai.STT = i;
+                    khuyenmai.Id = item.Id;
+                    khuyenmai.Ten = item.TenKhuyenMai;
+                    khuyenmai.PhanTram = item.PhanTram;
+                    khuyenmai.NgayBatDau = item.NgayBatDau;
+                    khuyenmai.NgayKetThuc = item.NgayKetThuc;
+                    khuyenmai.Status = item.Status;
+                    model.Add(khuyenmai);
+                }
+                return View(model.ToPagedList(pageNumber, pageSize));
             }
-            return View(model.ToPagedList(pageNumber, pageSize));
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            
         }
         public ActionResult CreateKhuyenMai()
         {

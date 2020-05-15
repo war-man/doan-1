@@ -223,6 +223,7 @@
     <Compile Include="Models\Model\Admin\CTHDNhapModel.cs" />
     <Compile Include="Models\Model\Admin\DataPoint.cs" />
     <Compile Include="Models\Model\Admin\DoanhThuModel.cs" />
+    <Compile Include="Models\Model\Admin\DoiMatKhauAdmin.cs" />
     <Compile Include="Models\Model\Admin\DonViTinhModel.cs" />
     <Compile Include="Models\Model\Admin\HoaDonBanModel.cs" />
     <Compile Include="Models\Model\Admin\HoaDonNhapModel.cs" />
@@ -237,13 +238,16 @@
     <Compile Include="Models\Model\NguoiDung\DanhGiaModel.cs" />
     <Compile Include="Controllers\NguoiDung\DanhSachCuaHangController.cs" />
     <Compile Include="Controllers\NguoiDung\GioiThieuController.cs" />
+    <Compile Include="Models\Model\NguoiDung\DoiMatKhauNguoiDung.cs" />
     <Compile Include="Models\Model\NguoiDung\GioHangModel.cs" />
     <Compile Include="Models\Model\NguoiDung\HoaDonBanModel.cs" />
     <Compile Include="Models\Model\NguoiDung\KhachHangModel.cs" />
     <Compile Include="Models\Model\NguoiDung\LoginModel.cs" />
     <Compile Include="Models\Model\NhanVien\CTHDBanModel.cs" />
+    <Compile Include="Models\Model\NhanVien\DoiMatKhauNhanVien.cs" />
     <Compile Include="Models\Model\NhanVien\HoaDonBanModel.cs" />
     <Compile Include="Models\Model\NhanVien\NhanVienModel.cs" />
+    <Compile Include="Models\Model\QuanLy\DoiMatKhauQuanLy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -915,6 +919,7 @@
     <Content Include="Views\TaiKhoanQuanLy\DoiMatKhau.cshtml" />
     <Content Include="Views\HomeQuanLy\TenDangNhap.cshtml" />
     <Content Include="Views\Login\QuenMatKhauNhanVien.cshtml" />
+    <Content Include="Views\HomeAdmin\DoiMatKhau.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -8,6 +8,7 @@ using DoAn.Models.Dao.Admin;
 using DoAn.Models.EF;
 using DoAn.Models.Model.Admin;
 
+
 namespace DoAn.Controllers.Admin
 {
     public class HomeAdminController : Controller
@@ -15,16 +16,16 @@ namespace DoAn.Controllers.Admin
         TraSuaEntities db = new TraSuaEntities();
         public ActionResult Index()
         {
-            //var session_user = (DoAn.Common.Login.User)Session[DoAn.Common.Constants.USER_SESSION];
-            //if (session_user != null)
-            //{
-            //    return View();
-            //}
-            //else
-            //{
-            //    return RedirectToAction("Index", "Login");
-            //}
-            return View();
+            var session = (DoAn.Common.Session.UserLogin)Session[DoAn.Common.Constants.USER_SESSION];
+            if (session != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            
         }
         public PartialViewResult TongDoanhThu()
         {
@@ -166,6 +167,34 @@ namespace DoAn.Controllers.Admin
                 model.Add(itemmodel);
             }
             return PartialView(model);
+        }
+        public ActionResult DoiMatKhau()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult DoiMatKhau(DoiMatKhauAdmin model)
+        {
+            if (ModelState.IsValid)
+            {
+                var session = (DoAn.Common.Session.UserLogin)Session[DoAn.Common.Constants.USER_SESSION];
+                if (session != null)
+                {
+                    var khachhang = db.KhachHangs.Find(session.UserId);
+                    if (khachhang.MatKhau == Common.Function.Encrytor.MD5Hash(model.MatKhauCu))
+                    {
+                        khachhang.MatKhau = DoAn.Common.Function.Encrytor.MD5Hash(model.MatKhau);
+                        db.SaveChanges();
+                        ViewBag.DoiMatKhau = "Bạn đã đổi mật khẩu thành công";
+                    }
+                    else
+                    {
+                        ViewBag.Error = "Mật khẩu không đúng";
+                    }
+
+                }
+            }
+            return View();
         }
 
     }

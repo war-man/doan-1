@@ -44,9 +44,6 @@ namespace DoAn.Models.Dao.NguoiDung
                     DateTime now = DateTime.Now;
                     var idbill = session.UserId.ToString() + now.Day.ToString() + now.Hour.ToString() + now.Minute.ToString() + now.Second.ToString();
                     //insert order
-
-
-
                     var dao = new CartDao();
                     var cart = dao.GetProductsByIdUser(session.UserId);
                     var item = new HoaDonBan();

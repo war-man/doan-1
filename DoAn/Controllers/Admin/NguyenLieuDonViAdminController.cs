@@ -13,7 +13,15 @@ namespace DoAn.Controllers.Admin
         TraSuaEntities db = new TraSuaEntities();
         public ActionResult Index()
         {
-            return View();
+            var session = (DoAn.Common.Session.UserLogin)Session[DoAn.Common.Constants.USER_SESSION];
+            if (session != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
         public JsonResult List(string txtSearch, int? page)
         {

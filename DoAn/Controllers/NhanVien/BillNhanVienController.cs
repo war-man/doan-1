@@ -79,10 +79,6 @@ namespace DoAn.Controllers.NhanVien
                 }
                 chitietthu_session.ChiTietThu = chitietthu;
                 Session.Add(Common.Constants.CTTHU_SESSION, chitietthu_session);
-
-
-
-
             }
             else
             {
@@ -231,14 +227,14 @@ namespace DoAn.Controllers.NhanVien
         public ActionResult DanhSachHoaDon_NhanVien()
         {
             var session_nhanvien = (DoAn.Common.Session.NhanVienSession)Session[DoAn.Common.Constants.NHANVIEN_SESSION];
-            var model = new List<HoaDonBanModel>();
+            var model = new List<DoAn.Models.Model.NhanVien.HoaDonBanModel>();
             var nhanvien = db.NhanViens.FirstOrDefault(x => x.Id == session_nhanvien.Id);
             var list = db.HoaDonBans.Where(x => x.MaChiNhanh == nhanvien.MaChiNhanh && x.Duyet == 1 && x.DaThanhToan == 0).ToList();
             int i = 0;
             foreach (var item in list)
             {
                 i++;
-                var itemmodel = new HoaDonBanModel();
+                var itemmodel = new DoAn.Models.Model.NhanVien.HoaDonBanModel();
                 itemmodel.Id = item.Id;
                 var khachhang = db.KhachHangs.FirstOrDefault(x => x.Id == item.MaKhach);
                 itemmodel.DiaChi = khachhang.DiaChi;
@@ -282,7 +278,18 @@ namespace DoAn.Controllers.NhanVien
             ViewBag.MaHoaDon = mahoadon;
             return View(model);
         }
-        public ActionResult SuaThanhToan_NhanVien(string mahdb)
+        public ActionResult SuaThanhToanOffline_NhanVien(string mahdb)
+        {
+            var hoadonban = db.HoaDonBans.Find(mahdb);
+            hoadonban.DaThanhToan = 1;
+            db.SaveChanges();
+            Session[DoAn.Common.Constants.MAHDN_SESSION] = null;
+            Session[DoAn.Common.Constants.CTTHU_SESSION] = null;
+            Session[DoAn.Common.Constants.SANPHAMTHU_SESSION] = null;
+            Session[DoAn.Common.Constants.BILL_SESSION] = null;
+            return RedirectToAction("Index", "HomeNhanVien");
+        }
+        public ActionResult SuaThanhToanOnline_NhanVien(string mahdb)
         {
             var hoadonban = db.HoaDonBans.Find(mahdb);
             hoadonban.DaThanhToan = 1;

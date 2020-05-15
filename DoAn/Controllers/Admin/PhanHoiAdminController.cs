@@ -17,7 +17,15 @@ namespace DoAn.Controllers.Admin
         PhanHoiDao dao = new PhanHoiDao();
         public ActionResult Index()
         {
-            return View();
+            var session = (DoAn.Common.Session.UserLogin)Session[DoAn.Common.Constants.USER_SESSION];
+            if (session != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
         public JsonResult List(int? page)
         {

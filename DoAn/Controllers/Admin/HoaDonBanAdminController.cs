@@ -15,9 +15,18 @@ namespace DoAn.Controllers.Admin
         HoaDonBanDao dao = new HoaDonBanDao();
         public ActionResult Index()
         {
-            var model = new HoaDonBanModel();
-            model.SelectChiNhanh = new SelectList(db.ChiNhanhs, "Id", "TenChiNhanh",0);
-            return View(model);
+            var session = (DoAn.Common.Session.UserLogin)Session[DoAn.Common.Constants.USER_SESSION];
+            if (session != null)
+            {
+                var model = new HoaDonBanModel();
+                model.SelectChiNhanh = new SelectList(db.ChiNhanhs, "Id", "TenChiNhanh", 0);
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+           
         }
         public ActionResult IndexDuyet()
         {

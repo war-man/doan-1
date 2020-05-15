@@ -17,8 +17,16 @@ namespace DoAn.Controllers.Admin
         
         public ActionResult Index()
         {
+            var session = (DoAn.Common.Session.UserLogin)Session[DoAn.Common.Constants.USER_SESSION];
+            if(session != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
            
-            return View();
 
         }
         public JsonResult List(string txtSearch, int? page)

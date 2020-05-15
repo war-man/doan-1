@@ -1,16 +1,16 @@
 ﻿
 @{
     ViewBag.Title = "DoiMatKhau";
-    Layout = "~/Views/Shared/NguoiDung.cshtml";
+    Layout = "~/Views/Shared/Admin.cshtml";
 }
 
-@model DoAn.Models.Model.NguoiDung.DoiMatKhauNguoiDung
+@model DoAn.Models.Model.Admin.DoiMatKhauAdmin
 
 <div class="container">
     <div class="row">
         <div class="col-xl-1 col-md-1"></div>
         <div class="col-xl-6 col-md-6">
-            @using (Html.BeginForm("DoiMatKhau", "Home", FormMethod.Post))
+            @using (Html.BeginForm("DoiMatKhau", "HomeAdmin", FormMethod.Post))
             {
                 @Html.AntiForgeryToken()
 
@@ -73,6 +73,4 @@
         <div class="col-xl-5 col-md-5"></div>
     </div>
 </div>
-
-
 

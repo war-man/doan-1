@@ -50,14 +50,38 @@ namespace DoAn.Controllers.NguoiDung
         [HttpPost]
         public ActionResult ThongTinTaiKhoan(KhachHangModel model)
         {
-            var session = (DoAn.Common.Session.UserLogin)Session[DoAn.Common.Constants.USER_SESSION];
-            var khachhang = db.KhachHangs.Find(session.UserId);
-            khachhang.HoTen = model.HoTen;
-            khachhang.DiaChi = model.DiaChi;
-            khachhang.SDT = model.SDT;
-            db.SaveChanges();
-            ViewBag.ThongTinTaiKhoan = "Bạn đã thay đổi thông tin thành công";
-            return View();
+            if (!ModelState.IsValid)
+            {
+                var session = (DoAn.Common.Session.UserLogin)Session[DoAn.Common.Constants.USER_SESSION];
+                var khachhang = db.KhachHangs.Find(session.UserId);
+                khachhang.HoTen = model.HoTen;
+                khachhang.DiaChi = model.DiaChi;
+                khachhang.SDT = model.SDT;
+                db.SaveChanges();
+
+                var viewmodel = new KhachHangModel();
+                viewmodel.Id = khachhang.Id;
+                viewmodel.HoTen = khachhang.HoTen;
+                viewmodel.Email = khachhang.Email;
+                viewmodel.SDT = khachhang.SDT;
+                viewmodel.DiaChi = khachhang.DiaChi;
+                viewmodel.UserName = khachhang.TenDangNhap;
+                ViewBag.ThongTinTaiKhoan = "Bạn đã thay đổi thông tin thành công";
+                return View(viewmodel);
+            }
+            else
+            {
+                var viewmodel = new KhachHangModel();
+                viewmodel.Id = model.Id;
+                viewmodel.HoTen = model.HoTen;
+                viewmodel.Email = model.Email;
+                viewmodel.SDT = model.SDT;
+                viewmodel.DiaChi = model.DiaChi;
+                viewmodel.UserName = model.TenDangNhap;
+                ViewBag.ThongTinTaiKhoan = "Bạn đã thay đổi thông tin thành công";
+                return View(viewmodel);
+            }
+            
         }
         public ActionResult MuaNgay(int productid)
         {
@@ -97,17 +121,27 @@ namespace DoAn.Controllers.NguoiDung
             return View();
         }
         [HttpPost]
-        public ActionResult DoiMatKhau(KhachHangModel model)
+        public ActionResult DoiMatKhau(DoiMatKhauNguoiDung model)
         {
-            var session = (DoAn.Common.Session.UserLogin)Session[DoAn.Common.Constants.USER_SESSION];
-            if (session != null)
+            if (ModelState.IsValid)
             {
-                var khachhang = db.KhachHangs.Find(session.UserId);
-                khachhang.MatKhau = DoAn.Common.Function.Encrytor.MD5Hash(model.MatKhau);
-                db.SaveChanges();
-                ViewBag.DoiMatKhau = "Bạn đã đổi mật khẩu thành công";
+                var session = (DoAn.Common.Session.UserLogin)Session[DoAn.Common.Constants.USER_SESSION];
+                if (session != null)
+                {
+                    var khachhang = db.KhachHangs.Find(session.UserId);
+                    if(khachhang.MatKhau == Common.Function.Encrytor.MD5Hash(model.MatKhauCu))
+                    {
+                        khachhang.MatKhau = DoAn.Common.Function.Encrytor.MD5Hash(model.MatKhau);
+                        db.SaveChanges();
+                        ViewBag.DoiMatKhau = "Bạn đã đổi mật khẩu thành công";
+                    }
+                    else
+                    {
+                        ViewBag.Error = "Mật khẩu không đúng";
+                    }
+                    
+                }
             }
-
             return View();
         }
         public ActionResult PhanHoi(string noidung)

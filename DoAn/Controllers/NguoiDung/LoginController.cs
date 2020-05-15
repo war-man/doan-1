@@ -50,7 +50,7 @@ namespace DoAn.Controllers.NguoiDung
                 }
                 else
                 {
-                    ModelState.AddModelError("", "đăng nhập không đúng");
+                    ViewBag.Error = "Tên đăng nhập hoặc mật khẩu không đúng";
                 }
             }
             return View("Index");

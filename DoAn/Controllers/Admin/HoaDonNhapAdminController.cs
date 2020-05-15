@@ -15,24 +15,33 @@ namespace DoAn.Controllers.Admin
         TraSuaEntities db = new TraSuaEntities();
         public ActionResult Index()
         {
-            var model = new List<HoaDonNhapModel>();
-            var list = db.HoaDonNhaps.ToList();
-            int i = 0;
-            foreach (var item in list)
+            var session = (DoAn.Common.Session.UserLogin)Session[DoAn.Common.Constants.USER_SESSION];
+            if (session != null)
             {
-                i++;
-                var itemmodel = new HoaDonNhapModel();
-                itemmodel.Id = item.Id;
-                itemmodel.STT = i;
-                itemmodel.TenNCC = new NhaCungCapDao().getById(item.MaNCC).TenNCC;
-                itemmodel.TenDangNhap = new KhachHangDao().viewDetail(item.MaNhanVien).TenDangNhap;
-                itemmodel.TongTien = item.TongTien;
-                itemmodel.NgayNhap = item.NgayNhap;
-                itemmodel.ChietKhau = String.Format("{0:0,0}", item.ChietKhau);
-                model.Add(itemmodel);
+                var model = new List<HoaDonNhapModel>();
+                var list = db.HoaDonNhaps.ToList();
+                int i = 0;
+                foreach (var item in list)
+                {
+                    i++;
+                    var itemmodel = new HoaDonNhapModel();
+                    itemmodel.Id = item.Id;
+                    itemmodel.STT = i;
+                    itemmodel.TenNCC = new NhaCungCapDao().getById(item.MaNCC).TenNCC;
+                    itemmodel.TenDangNhap = new KhachHangDao().viewDetail(item.MaNhanVien).TenDangNhap;
+                    itemmodel.TongTien = item.TongTien;
+                    itemmodel.NgayNhap = item.NgayNhap;
+                    itemmodel.ChietKhau = String.Format("{0:0,0}", item.ChietKhau);
+                    model.Add(itemmodel);
 
+                }
+                return View(model);
             }
-            return View(model);
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+           
         }
 
         public ActionResult CreateHDN()

@@ -84,18 +84,33 @@ namespace DoAn.Controllers.NhanVien
             return View();
         }
         [HttpPost]
-        public ActionResult DoiMatKhau(NhanVienModel model)
+        public ActionResult DoiMatKhau(DoiMatKhauNhanVien model)
         {
-            var session = (DoAn.Common.Session.NhanVienSession)Session[DoAn.Common.Constants.NHANVIEN_SESSION];
-            if (session != null)
+            if (ModelState.IsValid)
             {
-                var nhanvien = db.NhanViens.Find(session.Id);
-                nhanvien.MatKhau = DoAn.Common.Function.Encrytor.MD5Hash(model.MatKhau);
-                db.SaveChanges();
-                ViewBag.DoiMatKhau = "Bạn đã đổi mật khẩu thành công";
-            }
+                var session = (DoAn.Common.Session.NhanVienSession)Session[DoAn.Common.Constants.NHANVIEN_SESSION];
+                if (session != null)
+                {
+                    var nhanvien = db.NhanViens.Find(session.Id);
+                    if (nhanvien.MatKhau == Common.Function.Encrytor.MD5Hash(model.MatKhauCu))
+                    {
+                        nhanvien.MatKhau = DoAn.Common.Function.Encrytor.MD5Hash(model.MatKhau);
+                        db.SaveChanges();
+                        ViewBag.Success = "Bạn đã đổi mật khẩu thành công";
+                    }
+                    else
+                    {
 
+                        ViewBag.Error = "Mật khẩu không đúng";
+                    }
+
+                }
+            }
+           
             return View();
+
+
+            
         }
         public ActionResult Logout()
         {

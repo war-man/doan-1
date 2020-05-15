@@ -20,9 +20,18 @@ namespace DoAn.Controllers.Admin
         }
         public ActionResult SanPham()
         {
-            var model = new SanPhamModel();
-            model.SelectMaLoai = new SelectList(db.LoaiSanPhams, "Id", "TenLoaiSanPham", 0);
-            return View(model);
+            var session = (DoAn.Common.Session.UserLogin)Session[DoAn.Common.Constants.USER_SESSION];
+            if (session != null)
+            {
+                var model = new SanPhamModel();
+                model.SelectMaLoai = new SelectList(db.LoaiSanPhams, "Id", "TenLoaiSanPham", 0);
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            
             
         }
         public JsonResult List(string txtSearch, int? page)
