@@ -3,75 +3,44 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/Admin.cshtml";
 }
+@*
+    @Html.Action("DonHang", "HomeAdmin")
+    @Html.Action("PhanHoi", "HomeAdmin")
+    @Html.Action("KhachHangOnline", "HomeAdmin")
+        @Html.Action("Top5KhachHangMuaNhieuNhat", "HomeAdmin")
+    @Html.Action("TopSPBanChay", "HomeAdmin")*@
+<div class="container-fluid">
 
-<div class="content">
-    <!-- Animated -->
-    <div class="animated fadeIn">
-        <!-- Widgets  -->
-        <div class="row">
-            <div class="col-lg-3 col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="stat-widget-five">
-                            <div class="stat-icon dib flat-color-1">
-                                <i class="pe-7s-cash"></i>
-                            </div>
-                            @Html.Action("TongDoanhThu", "HomeAdmin")
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- Page Heading -->
+    <!-- Content Row -->
+    <div class="row">
 
-            <div class="col-lg-3 col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="stat-widget-five">
-                            <div class="stat-icon dib flat-color-2">
-                                <i class="pe-7s-cart"></i>
-                            </div>
-                            @Html.Action("DonHang", "HomeAdmin")
+        <!-- Earnings (Monthly) Card Example -->
+        @Html.Action("TongDoanhThu", "HomeAdmin")
 
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- Earnings (Monthly) Card Example -->
+        @Html.Action("DonHang", "HomeAdmin")
 
-            <div class="col-lg-3 col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="stat-widget-five">
-                            <div class="stat-icon dib flat-color-3">
-                                <i class="pe-7s-browser"></i>
-                            </div>
-                            @Html.Action("PhanHoi", "HomeAdmin")
+        <!-- Earnings (Monthly) Card Example -->
+        @Html.Action("PhanHoi", "HomeAdmin")
 
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- Pending Requests Card Example -->
+        @Html.Action("KhachHangOnline", "HomeAdmin")
+    </div>
+    <hr />
+    <br />
+    <div class="row">
+        <div class="col-md-6">
+            @Html.Action("Top5KhachHangMuaNhieuNhat", "HomeAdmin")
 
-            <div class="col-lg-3 col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="stat-widget-five">
-                            <div class="stat-icon dib flat-color-4">
-                                <i class="pe-7s-users"></i>
-                            </div>
-                            @Html.Action("KhachHangOnline", "HomeAdmin")
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="row">
-                <div class="col-lg-6 col-md-6">
-                    @Html.Action("Top5KhachHangMuaNhieuNhat", "HomeAdmin")
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    @Html.Action("TopSPBanChay", "HomeAdmin")
-                </div>
-            </div>
+        </div>
+        <div class="col-md-6">
+            @Html.Action("TopSPBanChay", "HomeAdmin")
         </div>
 
+    </div>
 
+   
+    
+
+</div>

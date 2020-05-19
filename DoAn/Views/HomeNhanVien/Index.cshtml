@@ -13,9 +13,17 @@
                 <div class="ml-title">
                     <Span>THỰC ĐƠN CỬA HÀNG</Span>
                 </div>
-                <div class="ml-timkiem">
-                   
-                @Html.Action("SelectLoaiSanPham", "HomeNhanVien")
+                <div class="ml-timkiem row">
+                    
+                
+                    <div class="col-md-10">
+                        @Html.Action("SelectLoaiSanPham", "HomeNhanVien")
+                    </div>
+                    <div class="col-md-2">
+                        <a href="/HomeNhanVien/Index" class="btn btn-success">Xem tất cả</a>
+                    </div>
+                    
+                    
                     
                     
 

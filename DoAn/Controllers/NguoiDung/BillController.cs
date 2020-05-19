@@ -87,9 +87,9 @@ namespace DoAn.Models.Dao.NguoiDung
 
                     try
                     {
-                        var toEmail = ConfigurationManager.AppSettings["ToEmailAddress"].ToString();
-                        new MailHelper().SendMail(khachhang.Email, "Đơn hàng mới từ Estore", content);
-                        new MailHelper().SendMail(toEmail, "Đơn hàng mới từ Estore", content);
+                        //var toEmail = ConfigurationManager.AppSettings["ToEmailAddress"].ToString();
+                        //new MailHelper().SendMail(khachhang.Email, "Đơn hàng mới từ Estore", content);
+                        //new MailHelper().SendMail(toEmail, "Đơn hàng mới từ Estore", content);
 
 
                         ViewBag.TotalMoney = model.TongTien;

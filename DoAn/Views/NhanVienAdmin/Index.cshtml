@@ -15,12 +15,12 @@
             <div class="col-md-10 row">
                 <div class="col-md-1"></div>
                 <input type="text" name="txtSearch" placeholder="Tìm kiếm" class="txtSearch form-control col-md-7" />
-                <div class="col-md-1"><button type="button" class="btn btn-warning" id="search">Tìm kiếm</button></div>
+                <div class="col-md-2"><button type="button" class="btn btn-warning" id="search">Tìm kiếm</button></div>
                 
                 <div class="col-md-2"></div>
             </div>
             <div class="col-md-2">
-                <button type="button" id="themsanpham" class="btn btn-primary" data-toggle="modal" data-target="#modalsanpham" onclick="clearTextBox()">Thêm sản phẩm mới</button><br /><br />
+                <button type="button" id="themsanpham" class="btn btn-primary" data-toggle="modal" data-target="#modalsanpham" onclick="clearTextBox()">Thêm mới</button><br /><br />
             </div>
         </div>
 
@@ -70,8 +70,9 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" id="closemodalsanpham" data-dismiss="modal">×</button>
                 <h4 class="modal-title" id="myModalLabel">Thêm nhân viên mới</h4>
+                <button type="button" class="close" id="closemodalsanpham" data-dismiss="modal">×</button>
+
             </div>
             <div class="modal-body">
                 <form>

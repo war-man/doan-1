@@ -9,8 +9,7 @@ namespace DoAn.Models.EF
     [Table("KhuyenMai")]
     public partial class KhuyenMai
     {
-        [StringLength(50)]
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public string TenKhuyenMai { get; set; }
 
@@ -18,9 +17,7 @@ namespace DoAn.Models.EF
 
         public string MoTa { get; set; }
 
-        public int? MaLoaiKhuyenMai { get; set; }
-
-        public DateTime? NgayBatDau { get; set; }
+        public DateTime NgayBatDau { get; set; }
 
         public DateTime? NgayKetThuc { get; set; }
 

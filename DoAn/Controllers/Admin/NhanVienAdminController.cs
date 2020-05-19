@@ -21,7 +21,7 @@ namespace DoAn.Controllers.Admin
             {
                 var model = new NhanVienModel();
                 model.SelectChiNhanh = new SelectList(db.ChiNhanhs, "Id", "TenChiNhanh", 0);
-                model.SelectChucVu = new SelectList(db.ChucVus.Where(x => x.Id == 1), "Id", "TenChucVu", 0);
+                model.SelectChucVu = new SelectList(db.ChucVus.Where(x => x.Id != 1), "Id", "TenChucVu", 0);
                 return View(model);
             }
             else

@@ -1,5 +1,5 @@
 ﻿@model List<DoAn.Models.Model.Admin.PhanHoiModel>
-<div class="dropdown for-message">
+@*<div class="dropdown for-message">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fa fa-envelope"></i>
         <span class="count bg-primary">
@@ -20,5 +20,44 @@
         }
 
     </div>
-</div>
+</div>*@
+
+
+<li class="nav-item dropdown no-arrow mx-1">
+    <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-envelope fa-fw"></i>
+        <!-- Counter - Messages -->
+        <span class="badge badge-danger badge-counter">@Model.Count</span>
+    </a>
+    <!-- Dropdown - Messages -->
+    <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
+        <h6 class="dropdown-header">
+            Phản hồi khách hàng
+        </h6>
+        @foreach (var item in Model)
+        {
+            <a class="dropdown-item d-flex align-items-center" href="#">
+                <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="">
+                    <div class="status-indicator bg-success"></div>
+                </div>
+                <div class="font-weight-bold">
+                    @if (item.Content == null)
+                    {
+                        <div class="text-truncate">không ghi chú</div>
+                    }
+                    else
+                    {
+                        <div class="text-truncate">@item.Content.Substring(0, 20)</div>
+                    }
+
+                    <div class="small text-gray-500">@item.UserName · @item.PhanHoiTu</div>
+                </div>
+            </a>
+        }
+
+        
+        <a class="dropdown-item text-center small text-gray-500" href="/PhanHoiAdmin/Index">Phê duyệt</a>
+    </div>
+</li>
 

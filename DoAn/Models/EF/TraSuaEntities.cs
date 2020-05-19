@@ -22,7 +22,6 @@ namespace DoAn.Models.EF
         public virtual DbSet<HoaDonNhap> HoaDonNhaps { get; set; }
         public virtual DbSet<KhachHang> KhachHangs { get; set; }
         public virtual DbSet<KhuyenMai> KhuyenMais { get; set; }
-        public virtual DbSet<LoaiKhuyenMai> LoaiKhuyenMais { get; set; }
         public virtual DbSet<LoaiSanPham> LoaiSanPhams { get; set; }
         public virtual DbSet<NguyenLieu> NguyenLieux { get; set; }
         public virtual DbSet<NguyenLieu_DonVi> NguyenLieu_DonVi { get; set; }

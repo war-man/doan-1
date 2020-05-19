@@ -25,7 +25,6 @@ namespace DoAn.Controllers.Admin
             {
                 return RedirectToAction("Index", "Home");
             }
-            
         }
         public PartialViewResult TongDoanhThu()
         {
@@ -155,7 +154,7 @@ namespace DoAn.Controllers.Admin
 
         public PartialViewResult PhanHoiChuaDoc()
         {
-            var list = db.PhanHois.Where(x => x.DaXem == 0).ToList();
+            var list = db.PhanHois.Where(x => x.DaXem == 0).Take(5).ToList();
             var model = new List<PhanHoiModel>();
             DateTime now = DateTime.Now;
             foreach (var item in list)

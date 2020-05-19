@@ -10,7 +10,7 @@ namespace DoAn.Models.Model.Admin
 {
     public class KhuyenMaiModel
     {
-        public string Id { set; get; }
+        public int Id { set; get; }
 
         [Required(ErrorMessage = "Mời nhập tên khuyến mãi")]
         [Display(Name = "Tên khuyến mãi")]
@@ -35,7 +35,7 @@ namespace DoAn.Models.Model.Admin
         public string MoTa { set; get; }
         [Required(ErrorMessage = "Mời chọn ngày bắt đầu")]
         [Display(Name = "Ngày bắt đầu")]
-        public DateTime? NgayBatDau { set; get; }
+        public DateTime NgayBatDau { set; get; }
 
         [Required(ErrorMessage = "Mời chọn ngày kết thúc")]
         [Display(Name = "Ngày kết thúc")]
@@ -50,5 +50,10 @@ namespace DoAn.Models.Model.Admin
         public List<LoaiSanPham> ListLoaiSanPham { set; get; }
 
         public int STT { set; get; }
+
+
+        public string NgayBDShow { set; get; }
+
+        public string NgayKTShow { set; get; }
     }
 }

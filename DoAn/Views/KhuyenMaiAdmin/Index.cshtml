@@ -1,86 +1,353 @@
 ﻿
 @{
-                /**/
+    /**/
 
-                ViewBag.Title = "Index";
-                Layout = "~/Views/Shared/Admin.cshtml";
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Admin.cshtml";
+    var lstloaisanpham = (List<DoAn.Models.EF.LoaiSanPham>)ViewBag.NhomSanPham;
 }
 
-@using PagedList.Mvc;
-@model PagedList.PagedList<DoAn.Models.Model.Admin.KhuyenMaiModel>
-<div class="main-admin-product">
-    <div class="main-top row">
-        <div class="col-md-10"><span>Khuyến mãi</span></div>
-        <div class="col-md-2 mt-right">
-            <a href="/KhuyenMaiAdmin/CreateKhuyenMai" class="btn btn-primary">Thêm</a>
+@model DoAn.Models.Model.Admin.NhanVienModel
+<div class="container">
+    <div class="danhsachsanpham">
+        <div>
+            <h4>Danh sách khuyến mãi</h4>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-10 row">
+                <div class="col-md-1"></div>
+                <input type="text" name="txtSearch" placeholder="Tìm kiếm" class="txtSearch form-control col-md-7" />
+                <div class="col-md-2"><button type="button" class="btn btn-warning" id="search">Tìm kiếm</button></div>
+
+                <div class="col-md-2"></div>
+            </div>
+            <div class="col-md-2">
+                <button type="button" id="themsanpham" class="btn btn-primary" data-toggle="modal" data-target="#modalsanpham" onclick="clearTextBox()">Thêm mới</button><br /><br />
+            </div>
         </div>
 
-    </div>
-    <hr>
-    <div class="main-center">
-        <table class="table  table-responsive" width="100">
+
+
+        <table class="table table-bordered table-hover" width="100%">
             <thead>
-                <tr style="font-size:13px;">
+                <tr>
+                    <th width="5%">
+                        STT
+                    </th>
+                    <th width="25%">
+                        Tên khuyến mãi
+                    </th>
+                    <th width="13%">
+                        Ngày bắt đầu
+                    </th>
+                    <th width="13%">
+                        Ngày kết thúc
+                    </th>
+                    <th width="10%">
+                        Phần trăm
+                    </th>
+                    <th width="25%">
+                        Loại sản phẩm
+                    </th>
+                    <th width="15%">
 
-                    <th width="5%">STT</th>
-                    <th width="20%">Tên</th>
-
-                    <th width="11%">Ngày bắt đầu</th>
-                    <th width="11%">Ngày kết thúc</th>
-                    <th width="9%">Phần trăm</th>
-                    <th width="15%">Status</th>
-
-                    <th width="11%">Chức năng</th>
-
+                    </th>
                 </tr>
             </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td width="5%" class="table-center">@item.STT</td>
-                        <td width="20%" class="admin-spc-tensp"><span>@item.Ten</span> </td>
-
-                        <td width="10%" class="table-center">@String.Format("{0:M/d/yyyy}", item.NgayBatDau)</td>
-                        <td width="10%" class="table-center">@String.Format("{0:M/d/yyyy}", item.NgayKetThuc)</td>
-                        <td width="6%" class="table-center">@item.PhanTram %</td>
-
-                        <td width="15%" class="table-center">
-                            @if (item.Status == 0)
-                            {
-                                <span class="btn-danger" href="">Đã dừng</span>
-                            }
-                            else
-                            {
-                                <span class="btn-primary" href="">Đang áp dụng</span>
-                            }
-                        </td>
-                        <td width="11%" class="chucnang table-center">
-                            @if (item.Status == 0)
-                            {
-
-                            }
-                            else
-                            {
-                                <a href="/KhuyenMaiAdmin/UpdateKhuyenMai?makhuyenmai=@item.Id" class="btn btn-danger" id="" onclick="alert('Bạn có chắc muốn dừng không?')">Dừng</a> <br />
-                            }
-
-
-                        </td>
-
-
-                    </tr>
-                }
-
-            </tbody>
+            <tbody class="tbody"></tbody>
         </table>
-    </div>
-    <div class="main-bottom row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-            @Html.PagedListPager(Model, page => Url.Action("Index", "KhuyenMaiAdmin", new { page = page }))
+        <div class="card-footer">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination" id="load-pagination"></ul>
+            </nav>
         </div>
-        <div class="col-md-2"></div>
+    </div>
+
+</div>
+
+
+
+
+<div class="modal fade " id="modalsanpham" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Thêm khuyến mãi mới</h4>
+                <button type="button" class="close" id="closemodalsanpham" data-dismiss="modal">×</button>
+
+            </div>
+            <div class="modal-body">
+                <form>
+
+                    <div class="form-group row">
+                        <label for="NoiDung" class="col-md-3">Tên khuyến mãi</label>
+                        <input type="text" class="form-control col-md-8" id="tenkhuyenmai" placeholder="Tên khuyến mãi" />
+                        <div class="col-md-1"></div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="NoiDung" class="col-md-3">Ngày bắt đầu</label>
+                        <input type="date" class="form-control col-md-8" id="ngaybatday" placeholder="Ngày bắt đầu" />
+                        <div class="col-md-1"></div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="Age" class="col-md-3">Ngày kết thúc</label>
+                        <input type="date" class="form-control col-md-8" id="ngayketthuc" placeholder="Ngày kết thúc" />
+                        <div class="col-md-1"></div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Age" class="col-md-3">Loại sản phẩm</label>
+                        <div class="col-md-8 row">
+                            @foreach (var item in @lstloaisanpham)
+                            {
+                                <div class="col-md-6">
+                                    <input type="checkbox" value="@item.Id" class="col-md-1" name="ckb_loaisp">
+                                    <span class="col-md-11 ten-lsp">@item.TenLoaiSanPham</span>
+                                </div>
+                            }
+
+
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
+                    <input type="text" name="listlspdc" value="" style="display:none;" id="listlspdc"/>
+
+
+
+                    <div class="form-group row">
+                        <label for="Age" class="col-md-3">Phần trăm</label>
+                        <input type="text" name="name" value="" placeholder="Phần trăm" class="form-control col-md-8" id="phantram"/>
+                        <div class="col-md-1"></div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnAdd">Add</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="btnclosesanpham">Close</button>
+            </div>
+        </div>
     </div>
 </div>
+
+
+@section khuyenmai{
+    <script>
+        $(document).ready(function (e) {
+
+            loaddata(null, 1);
+        });
+        function loaddata(txtSeach, page) {
+
+            $.ajax({
+                url: "/KhuyenMaiAdmin/List",
+                type: "GET",
+                data: { txtSearch: txtSeach, page: page },
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    var html = '';
+                    $.each(result.data, function (key, item) {
+                        html += '<tr>';
+                        html += '<td width="5%" class="table-center">' + item.STT + '</td>';
+                        html += '<td width="25%" class="table-center">' + item.Ten + '</td>';
+                        html += '<td width="10%" class="table-center">' + item.NgayBDShow + '</td>';
+                        html += '<td width="10%" class="table-center">' + item.NgayKTShow + '</td>';
+                        html += '<td width="10%" class="table-center">' + item.PhanTram + '</td>';
+                        html += '<td width="25%"  class="table-center">' + item.MoTa + '</td>';
+                        if (item.Status == 0) {
+                            html += '<td width="15%" class="table-center">   <span class="btn-danger">đã dừng</span></td>';
+                        }
+                        else {
+                            html += '<td width="15%" class="table-center">   <a class="btn btn-danger" href="#"  onclick="Update(' + item.Id + ')">Dừng</a></td>';
+                        }
+                        
+                        html += '</tr>';
+                        var pagination_string = "";
+                        var pageCurrent = result.pageCurrent;
+                        var numSize = result.numSize;
+
+                        //create button previous
+                        if (pageCurrent > 1) {
+                            var pagePrevious = pageCurrent - 1;
+                            pagination_string += '<li class="page-item"><a href="" class="page-link" data-page=' + pagePrevious + '>Previous</a></li>';
+                        }
+
+                        for (i = 1; i <= numSize; i++) {
+                            if (i == pageCurrent) {
+                                pagination_string += '<li class="page-item active"><a href="" class="page-link" data-page=' + i + '>' + pageCurrent + '</a></li>';
+                            } else {
+                                pagination_string += '<li class="page-item"><a href="" class="page-link" data-page=' + i + '>' + i + '</a></li>';
+                            }
+                        }
+
+                        //create button next
+                        if (pageCurrent > 0 && pageCurrent < numSize) {
+                            var pageNext = pageCurrent + 1;
+                            pagination_string += '<li class="page-item"><a href="" class="page-link"  data-page=' + pageNext + '>Next</a></li>';
+                        }
+
+                        //load pagination
+                        $("#load-pagination").html(pagination_string);
+
+                    });
+                    $('.tbody').html(html);
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+        $("body").on("click", ".pagination li a", function (event) {
+            event.preventDefault();
+            var page = $(this).attr('data-page');
+
+            //load event pagination
+            var txtSearch = $(".txtSearch").val();
+            if (txtSearch != "") {
+                loaddata(txtSearch, page)
+            }
+            else {
+                loaddata(null, page);
+            }
+
+        });
+        $("#search").click(function () {
+            var txtSearch = $(".txtSearch").val();
+            if (txtSearch != "") {
+                loaddata(txtSearch, 1)
+            }
+            else {
+                loaddata(null, 1);
+            }
+
+        });
+
+
+        $('#btnAdd').click(function () {
+            var mang = [];
+            $('input[name="ckb_loaisp"]:checked').each(function (i) {
+                mang[i] = $(this).val();
+            });
+            $('input[name="listlspdc"]').val(mang);
+            
+            var res = validate();
+            if (res == false) {
+                return false;
+            }
+            var empObj = {
+                Ten: $('#tenkhuyenmai').val(),
+                NgayBatDau: $('#ngaybatday').val(),
+                NgayKetThuc: $('#ngayketthuc').val(),
+                PhanTram: $('#phantram').val(),
+                MoTa: $('#listlspdc').val(),
+                
+            };
+            $.ajax({
+                url: "/KhuyenMaiAdmin/Add",
+                data: JSON.stringify(empObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+
+                    loaddata(null, 1);
+                    alert('Bạn đã thêm mới thành công');
+
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        });
+
+
+        function Update(ID) {
+            var ans = confirm("Bạn có chắc muốn dừng không?");
+            if (ans) {
+                $.ajax({
+                    url: "/KhuyenMaiAdmin/Update/" + ID,
+                    type: "POST",
+                    contentType: "application/json;charset=UTF-8",
+                    dataType: "json",
+                    success: function (result) {
+                        loaddata(null, 1);
+                        alert('Bạn đã dừng khuyến mãi thành công');
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    }
+                });
+            }
+        }
+
+        function clearTextBox() {
+
+            $('#hotennhanvien').val("");
+            $('#tendangnhapnhanvien').val("");
+            $('#myModalLabel').text('Thêm sản phẩm mới');
+            $('#btnUpdate').hide();
+            $('#btnAdd').show();
+        }
+        //Valdidation using jquery
+        function validate() {
+            var isValid = true;
+            if ($('#tenkhuyenmai').val() == "") {
+                $('#tenkhuyenmai').css('border-color', 'Red');
+                isValid = false;
+            }
+            else {
+                $('#tenkhuyenmai').css('border-color', 'lightgrey');
+            }
+
+
+            if ($('#ngaybatdau').val() == "") {
+                $('#ngaybatdau').css('border-color', 'Red');
+                isValid = false;
+            }
+            else {
+                $('#ngaybatdau').css('border-color', 'lightgrey');
+            }
+
+            if ($('#ngayketthuc').val() == "") {
+                $('#ngayketthuc').css('border-color', 'Red');
+                isValid = false;
+            }
+            else {
+                $('#ngayketthuc').css('border-color', 'lightgrey');
+            }
+
+            if ($('#phantram').val() == "") {
+                $('#phantram').css('border-color', 'Red');
+                isValid = false;
+            }
+            else {
+                $('#phantram').css('border-color', 'lightgrey');
+            }
+
+            if ($('#listlspdc').val() == "") {
+                alert('bạn chưa chọn loại sản phẩm');
+                isValid = false;
+            }
+            else {
+                $('#listlspdc').css('border-color', 'lightgrey');
+            }
+
+
+
+
+            
+
+            
+
+
+
+
+            return isValid;
+        }
+    </script>
+
+}
 
