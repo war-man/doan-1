@@ -32,12 +32,14 @@
 -------------------------------------------------
 */
 /*-------------   Color variabel  --------------*/
-@import url("https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,500,600,700,800|Poppins:400,500,600,700|Yellowtail&display=swap");
+/*@import url("https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,500,600,700,800|Poppins:400,500,600,700|Yellowtail&display=swap");*/
 /* line 37, ../../SAIFUL/Running_project/250 eCommerce_HTML/250 eCommerce_HTML/250 eCommerce_HTML/assets/scss/_color.scss */
 .white-bg {
   background: #ffffff;
 }
-
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+}
 /* line 40, ../../SAIFUL/Running_project/250 eCommerce_HTML/250 eCommerce_HTML/250 eCommerce_HTML/assets/scss/_color.scss */
 .gray-bg {
   background: #f5f5f5;
@@ -267,9 +269,7 @@ p {
 }
 
 /* line 59, ../../SAIFUL/Running_project/250 eCommerce_HTML/250 eCommerce_HTML/250 eCommerce_HTML/assets/scss/_common.scss */
-.fix {
-  overflow: hidden;
-}
+
 
 /* line 62, ../../SAIFUL/Running_project/250 eCommerce_HTML/250 eCommerce_HTML/250 eCommerce_HTML/assets/scss/_common.scss */
 .clear {
@@ -3627,6 +3627,9 @@ input:focus {
     z-index:9999;
     
 }
+.sub-menu li:hover{
+    background-color:aqua;
+}
 .d-none ul.submenu a{
     color:black;
 }
@@ -3755,6 +3758,11 @@ input:focus {
   color: #4e4e4e;
   font-size: 14px;
   cursor: pointer;
+}
+.header-bottom .header-right .shopping-card:hover i {
+    
+    color: blue;
+    
 }
 
 @media (max-width: 767px) {
@@ -13125,20 +13133,30 @@ main {
 }
 .main-sp .sp-content .ct-sp{
     margin-bottom:30px;
+    text-align:center;
 }
 .main-sp .sp-content .ct-sp .ten-sp{
     color:darkred;
     margin-bottom:20px;
 }
 .main-sp .sp-content .ct-sp .giaban{
-    color:red;
+    color:black ;
     text-decoration:line-through;
    
 }
 .main-sp .sp-content .ct-sp .giakm {
     margin-left: 20px;
+    color:red;
 }
 
+.banchay-khuyenmai {
+    position:relative;
+    left: 50px;
+    background-color:red;
+    padding: 7px 7px;
+    border-radius:5px;
+    top: -165px;
+} 
 .main-sp .sp-content .ct-sp .muangay {
     margin-top: 15px;
 }
@@ -13156,8 +13174,8 @@ main {
     }
 .menu-topping{
     border: 1px solid black;
-    padding:20px;
-    border-radius:20px;
+    padding:0px 20px;
+    margin-bottom:20px;
 }
 .tt-bb{
     font-weight:bold;
@@ -13169,7 +13187,9 @@ main {
     color:red;
 }
 .btn-cl-tru{
-    color:red;
+    color:white;
+    background-color:red;
+    border:2px solid red;
 }
 .cl-input-soluong {
     width: 20px;
@@ -13326,9 +13346,54 @@ label.star:before {
 .danhsachbinhluan{
     font-size:15px;
 }
+.anhdaidien img{
+    width: 100%;
+    
+}
+.thongtindonhang {
+    background-color: green;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+}
+    .thongtindonhang span {
+        font-weight: bold;
+        color: white;
+    }
+.title-ctsanpham {
+    background-color: silver;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+}
+.title-ctsanpham span{
+    font-weight:bold;
+    color:white;
+    
+}
+
+
+.ds-binhluan {
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 10px;
+}
+.dsbinhluan-tendangnhap{
+    font-weight:bold;
+}
+
+.binhluan-sanpham {
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 10px;
+}
+.table-dsbinhluan img {
+    border-radius: 20px;
+}
+
 .danhsachbinhluan .title {
-    margin-top: 40px;
-    margin-bottom: 10px;
+    /*margin-top: 40px;
+    margin-bottom: 10px;*/
 }
 .banner-gioithieu img{
     width:100%;
@@ -13397,7 +13462,152 @@ tr th {
 
 .itemgiohang{
     color:red;
+    font-size:13px;
 }
+.title-dangnhapkhachhang{
+    position:relative;
+    top: -30px;
+    left:10px;
+    font-size:20px;
+
+}
+.cannhap{
+    color:red;
+}
+.xinchao{
+    font-weight:initial;
+}
+.xc-tendangnhap{
+    color:blue;
+}
+.itemgiohang{
+    position:relative;
+    top:-15px;
+    border: 1px solid red;
+    color:white;
+    background-color:red;
+    padding:4px;
+    border-radius:5px;
+    left:-3px;
+}
+.btn-cl-cong{
+    color:white;
+    background-color:green;
+    border: 2px solid green;
+}
+.submenu a{
+    font-size:14px;
+}
+.submenu a:hover{
+    color:blue;
+}
+.table-center{
+    text-align:center;
+}
+.sanpham ul li a{
+    color:saddlebrown;
+}
+.danhmucsanpham-title {
+    background-color: green;
+    color: white;
+    text-align: center;
+    padding: 5px;
+    
+    
+}
+.danhmucsanpham-content{
+    color:slategray;
+}
+.danhmucsanpham-content li {
+    padding: 7px;
+    background-color: white;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+.danhmucsanpham-content li:hover{
+    color:red;
+}
+.ct-sp{
+    text-align:center;
+    font-size:15px;
+    margin-bottom:50px;
+}
+
+.ct-sp .ten-sp {
+    color: black;
+    font-size:13px;
+}
+
+.ct-sp .giaban{
+    color:red;
+    text-decoration:line-through;
+}
+.ct-sp .giakm{
+    color:black;
+}
+.khuyenmai{
+    border:1px solid red;
+    color:white;
+    padding:5px;
+    background-color:red;
+    border-radius:7px;
+    position:absolute;
+    top:10px;
+    left:140px;
+}
+.MenuTrang ul{
+    text-align:center;
+}
+.MenuTrang li{
+    background-color:blue;
+    padding:8px;
+    margin-left:1px;
+    
+}
+.MenuTrang ul li a{
+    color:white;
+}
+
+
+#map {
+    height: 320px;
+    position:relative;
+
+}
+
+
+
+.phantrang-sp-nguoidung ul li {
+    padding: 3px 15px;
+    background-color: #007AFE;
+    border-right: 1px solid white;
+}
+.phantrang-sp-nguoidung ul li a {
+    color: white;
+    font-size: 20px;
+
+}
+.phantrang-sp-nguoidung ul li:hover a{
+    color:white;
+}
+.phantrang-sp-nguoidung ul li:hover a{
+    color: red;
+}
+
+.phantrang-sp-nguoidung ul li.active {
+    background-color: green;
+}
+.phantrang-sp-nguoidung ul li.active a{
+    background-color: green;
+    color:white;
+}
+
+.donhang-khachhang ul li a{
+    color:black;
+}
+
+
 
 footer {
     background-color: black;

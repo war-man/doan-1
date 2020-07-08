@@ -37,12 +37,19 @@
                     <th width="5%">
                         STT
                     </th>
-                    <th width="25%">
+                    <th width="15%">
                         Tên nguyên liệu
                     </th>
-
-
                     <th width="15%">
+                        Đơn vị tính
+                    </th>
+                    <th width="15%">
+                        Giá nhập
+                    </th>
+                    <th width="15%">
+                        Số lượng
+                    </th>
+                    <th width="10%">
 
                     </th>
                 </tr>
@@ -77,10 +84,11 @@
                         <input type="text" class="form-control col-md-8" id="tennguyenlieu" placeholder="tên nguyên liệu" />
                         <div class="col-md-1"></div>
                     </div>
-
-
-
-
+                    <div class="form-group row">
+                        <label for="NoiDung" class="col-md-3">Đơn vị tính</label>
+                        <input type="text" class="form-control col-md-8" id="donvitinh" placeholder="đơn vị tính" />
+                        <div class="col-md-1"></div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -115,8 +123,10 @@
                         html += '<tr>';
                         html += '<td width="5%" class="table-center">' + item.STT+ '</td>';
                         html += '<td width="25%">' + item.TenNguyenLieu + '</td>';
-
-                        html += '<td width="15%">  <a href="#"   onclick="getbyID(' + item.Id + ')">Sửa</a> | <a href="#"  onclick="Delele(' + item.Id + ')">Xóa</a> </td>';
+                        html += '<td width="15%" class="table-center">' + item.DonViTinh + '</td>';
+                        html += '<td width="15%" class="table-center">' + item.GiaNhap + '</td>';
+                        html += '<td width="15%" class="table-center">' + item.SoLuong + '</td>';
+                        html += '<td width="10%" class="table-center">  <a href="#"   onclick="getbyID(' + item.Id + ')">Sửa</a> | <a href="#"  onclick="Delele(' + item.Id + ')">Xóa</a> </td>';
                         html += '</tr>';
                         var pagination_string = "";
                         var pageCurrent = result.pageCurrent;
@@ -187,7 +197,7 @@
             }
             var empObj = {
                 TenNguyenLieu: $('#tennguyenlieu').val(),
-
+                DonViTinh: $('#donvitinh').val()
 
             };
             $.ajax({
@@ -223,6 +233,7 @@
                     $('#themsanpham').click();
                     $('#idnguyenlieu').val(result.Id);
                     $('#tennguyenlieu').val(result.TenNguyenLieu);
+                    $('#donvitinh').val(result.TenNguyenLieu);
 
                     $('#btnUpdate').show();
                     $('#btnAdd').hide();
@@ -246,6 +257,7 @@
             var empObj = {
                 Id : $('#idnguyenlieu').val(),
                 TenNguyenLieu: $('#tennguyenlieu').val(),
+                DonViTinh: $('#donvitinh').val(),
 
 
             };

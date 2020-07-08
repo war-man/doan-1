@@ -43,9 +43,9 @@ namespace DoAn.Models.Dao.NguoiDung
             return db.GioHangs.Where(x => x.ThuocSanPham == productid && x.MaKhachHang == userid && x.SanPhamThu==sanphamthu).ToList();
         }
        
-        public int? Tien1LyTraSua(int userid, int thuocsanpham)
+        public int? Tien1LyTraSua(int userid, int thuocsanpham, int? sanphamthu)
         {
-            var list = db.GioHangs.Where(x => x.ThuocSanPham == thuocsanpham && x.MaKhachHang == userid).ToList();
+            var list = db.GioHangs.Where(x => x.ThuocSanPham == thuocsanpham && x.MaKhachHang == userid && x.SanPhamThu==sanphamthu).ToList();
             int? tien = 0;
             foreach (var item in list)
             {
@@ -54,14 +54,22 @@ namespace DoAn.Models.Dao.NguoiDung
             }
             return tien;
         }
-        public string getMoTa(int productid, int userid)
+        public string getMoTa(int masanpham, int userid, int? sanphamthu)
         {
             var mota = "";
-            var list = db.GioHangs.Where(x => x.ThuocSanPham == productid && x.MaKhachHang == userid).ToList();
+            var list = db.GioHangs.Where(x => x.ThuocSanPham == masanpham && x.MaKhachHang == userid && x.SanPhamThu==sanphamthu).ToList();
+           
             foreach (var item in list)
             {
-                mota += new ProductDao().viewDetail(item.MaSanPham).TenSanPham.ToString() + ", ";
+                var categorydao = new CategoryDao();
+                if (categorydao.getSPChinh(item.MaSanPham) != 1)
+                {
+                    mota += new ProductDao().getByid(item.MaSanPham).TenSanPham.ToString() + ", ";
+                }
+
             }
+           
+            
             return mota;
         }
     }

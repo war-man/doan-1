@@ -30,6 +30,7 @@ namespace DoAn.Models.Model.Admin
         public string GiaBan { set; get; }
 
         public int? KhuyenMai { set; get; }
+        public string KhuyenMaiShow { set; get; }
 
         [Required(ErrorMessage = "Mời chọn ảnh")]
         [Display(Name = "Hình ảnh")]
@@ -42,5 +43,7 @@ namespace DoAn.Models.Model.Admin
         public SelectList SelectMaLoai { set; get; }
 
         public int? TongSL { set; get; }
+
+        public string PhanTramKM { set; get; }
     }
 }

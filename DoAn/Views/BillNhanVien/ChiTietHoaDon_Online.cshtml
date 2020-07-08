@@ -36,7 +36,7 @@
                     </div>
                 </div>
             </div>
-            <a href="/BillNhanVien/SuaThanhToanOnline_NhanVien?mahdb=@ViewBag.MaHoaDon" class="btn btn-primary">In hóa đơn</a>
+            <a href="/BillNhanVien/SuaDuyetOnline_NhanVien?mahdb=@ViewBag.MaHoaDon" class="btn btn-primary">In hóa đơn</a>
         </div>
 
         <hr />
@@ -98,6 +98,26 @@
                     <td class="table-center">Tổng tiền</td>
                     <td class="table-center">
                         @String.Format("{0:0,0}", @Model.Sum(x => x.ThanhTien))đ
+
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="table-center">Phí ship</td>
+                    <td class="table-center">
+                        @String.Format("{0:0,0}", ViewBag.PhiShip)đ
+
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="table-center">Tổng tiền hóa đơn</td>
+                    <td class="table-center">
+                        @String.Format("{0:0,0}", ViewBag.TongTienHoaDon)đ
 
                     </td>
                 </tr>

@@ -45,6 +45,9 @@ namespace DoAn.Controllers.Admin
                 itemmodel.STT = i;
                 itemmodel.Id = item.Id;
                 itemmodel.TenNguyenLieu = item.TenNguyenLieu;
+                itemmodel.DonViTinh = item.DonViTinh;
+                itemmodel.GiaNhap =String.Format("{0:0,0}",item.GiaNhap) +"đ";
+                itemmodel.SoLuong = String.Format("{0:0,0}", item.SoLuong);
                 data.Add(itemmodel);
 
             }

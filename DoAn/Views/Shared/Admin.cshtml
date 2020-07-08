@@ -15,8 +15,8 @@
 
     <!-- Custom fonts for this template-->
     <link href="~/Content/assets/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
-
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="~/Content/assets/admin/css/font.css" rel="stylesheet" />
+    @*<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">*@
 
     <!-- Custom styles for this template-->
     <link href="~/Content/assets/admin/css/sb-admin-2.min.css" rel="stylesheet" />
@@ -71,24 +71,12 @@
 
                         <a class="collapse-item" href="/SanPhamAdmin/SanPham">Danh sách sản phẩm</a>
                         <a class="collapse-item" href="/NhomSanPhamAdmin/Index">Danh mục sản phẩm</a>
-                    </div>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Nguyên liệu</span>
-                </a>
-                <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-
-                        <a class="collapse-item" href="/DonViTinhAdmin/Index">Đơn vị tính</a>
                         <a class="collapse-item" href="/NguyenLieuAdmin/Index">Danh sách nguyên liệu</a>
-                        <a class="collapse-item" href="/NguyenLieuDonViAdmin/Index">Kho nguyên liệu</a>
                     </div>
                 </div>
             </li>
+
+
 
 
             <!-- Nav Item - Utilities Collapse Menu -->
@@ -106,6 +94,21 @@
                     </div>
                 </div>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Báo cáo</span>
+                </a>
+                <div id="collapseFour" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+
+                        <a class="collapse-item" href="/BaoCaoAdmin/Index">Báo cáo hàng ngày</a>
+
+                    </div>
+                </div>
+            </li>
+
             <li class="nav-item">
                 <a class="nav-link" href="/KhuyenMaiAdmin/Index">
                     <i class="fas fa-fw fa-chart-area"></i>
@@ -136,6 +139,7 @@
                         <h6 class="collapse-header">Doanh thu</h6>
                         <a class="collapse-item" href="/DoanhThuAdmin/Index">Doanh thu theo tháng</a>
                         <a class="collapse-item" href="/DoanhThuAdmin/DoanhThuTheoNgay">Doanh thu theo ngày</a>
+                        <a class="collapse-item" href="/DoanhThuAdmin/DoanhThuTheoNgay_ChiNhanh">Doanh thu theo chi nhánh</a>
                     </div>
                 </div>
             </li>
@@ -324,9 +328,13 @@
     @RenderSection("doanhthu", required: false)
     @RenderSection("hoadonnhap", required: false)
     @RenderSection("createcthdn", required: false)
+    @RenderSection("baocaochinhanh", required: false)
+    <script src="~/Content/assets/admin/js/canvasjs.min.js"></script>
 
-
-    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGDw0EZ0EXdgFdbXAabAifdJ-TP7JV7xc&callback=initMap">
+    </script>
+    @*<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>*@
 
 
 </body>

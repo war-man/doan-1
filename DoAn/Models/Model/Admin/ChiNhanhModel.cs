@@ -16,5 +16,9 @@ namespace DoAn.Models.Model.Admin
         public string GhiChu { set; get; }
 
         public int STT { set; get; }
+
+        public string Lat { set; get; }
+
+        public string Lng { set; get; }
     }
 }

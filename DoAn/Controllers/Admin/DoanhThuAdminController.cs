@@ -185,5 +185,80 @@ namespace DoAn.Controllers.Admin
             // doanh thu theo tháng
             
         }
+
+
+
+        public ActionResult DoanhThuTheoNgay_ChiNhanh(string thang = null)
+        {
+            var session = (DoAn.Common.Session.UserLogin)Session[DoAn.Common.Constants.USER_SESSION];
+            if (session != null)
+            {
+                List<DoanhThuModel> lst_doanhthutheothang = new List<DoanhThuModel>();
+               
+                List<double> lst_tongtien = new List<double>();
+                var list = db.HoaDonBans.ToList();
+                var list_chinhanh = db.ChiNhanhs.ToList();
+                
+                if (thang == null)
+                {
+                    foreach(var item in list_chinhanh)
+                    {
+                        var doanhthu = new DoanhThuModel();
+                        int? tongtien = 0;
+                        foreach (var itemhdb in list)
+                        {
+                            if (itemhdb.MaChiNhanh == item.Id)
+                            {
+                                tongtien += itemhdb.TongTien_HoaDon;
+                            }
+                        }
+                        doanhthu.Label = item.TenChiNhanh;
+                        doanhthu.Y = tongtien;
+                        lst_doanhthutheothang.Add(doanhthu);
+                    }
+                }
+                else
+                {
+
+                    string[] thang_split = thang.Split('-');
+                    var thang_bc =Convert.ToInt32( thang_split[1]);
+                    var nam_bc =Convert.ToInt32( thang_split[0]);
+
+                    var dao = new DoanhThuDao();
+                    foreach (var item in list_chinhanh)
+                    {
+                        var doanhthu = new DoanhThuModel();
+                        int? tongtien = 0;
+                        foreach (var itemhdb in list)
+                        {
+                            if (itemhdb.MaChiNhanh == item.Id && dao.thang_hoadon(itemhdb.NgayBan)==thang_bc 
+                                && dao.nam_hoadon(itemhdb.NgayBan)==nam_bc)
+                            {
+                                tongtien += itemhdb.TongTien_HoaDon;
+                            }
+                        }
+                        doanhthu.Label = item.TenChiNhanh;
+                        doanhthu.Y = tongtien;
+                        lst_doanhthutheothang.Add(doanhthu);
+                    }
+
+                }
+                
+                
+               
+                
+                        
+                ViewBag.TongSoLuong = lst_doanhthutheothang;
+                ViewBag.DoanhThuTheoNgay = JsonConvert.SerializeObject(lst_doanhthutheothang);
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            // doanh thu theo tháng
+
+        }
+
     }
 }

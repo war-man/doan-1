@@ -20,10 +20,7 @@
             <div class="col-lg-6 col-md-6">
                 <div class="login_part_form">
                     <div class="login_part_form_iner">
-                        <h3>
-                            Chào mừng trở lại<br>
-                            Đăng nhập ngay
-                        </h3>
+                        <span class="title-dangnhapkhachhang">ĐĂNG NHẬP NGAY</span>
                         @using (Html.BeginForm("Login", "Login", FormMethod.Post))
                         {
                         <form class="row contact_form" action="#" method="post" novalidate="novalidate">
@@ -49,14 +46,11 @@
 
 
                             <div class="col-md-12 form-group">
-                                <div class="creat_account d-flex align-items-center">
-                                    <input type="checkbox" id="f-option" name="selector" checked>
-                                    <label for="f-option">Remember me</label>
-                                </div>
+                                
                                 <button type="submit" value="submit" class="btn_3">
                                     Đăng nhập
                                 </button>
-                                <a class="lost_pass" href="/Login/QuenMatKhau">forget password?</a>
+                                <a class="lost_pass" href="/Login/QuenMatKhau">quên mật khẩu</a>
                             </div>
                         </form>
                         }

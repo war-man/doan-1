@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DoAn.Common.Session;
+using DoAn.Models.Model.NhanVien;
 
 namespace DoAn.Controllers.NguoiDung
 {
@@ -118,6 +119,8 @@ namespace DoAn.Controllers.NguoiDung
         }
         public ActionResult DoiMatKhau()
         {
+            var session = (DoAn.Common.Session.UserLogin)Session[DoAn.Common.Constants.USER_SESSION];
+            ViewBag.TenDangNhap = session.UserName;
             return View();
         }
         [HttpPost]
@@ -156,6 +159,70 @@ namespace DoAn.Controllers.NguoiDung
             db.PhanHois.Add(phanhoi);
             db.SaveChanges();
             return RedirectToAction("Index", "Home");
+        }
+        public ActionResult DanhSachHoaDon_KhachHang()
+        {
+            var session = (Common.Session.UserLogin)Session[Common.Constants.USER_SESSION];
+            var lstHoaDon = db.HoaDonBans.Where(x => x.MaKhach == session.UserId).ToList();
+            var model = new List<Models.Model.NguoiDung.HoaDonBanModel>();
+            foreach(var item in lstHoaDon)
+            {
+                var itemmodel = new Models.Model.NguoiDung.HoaDonBanModel();
+                itemmodel.Id = item.Id;
+                itemmodel.NgayBan = item.NgayBan;
+                itemmodel.TongSoSanPham = new Models.Dao.NguoiDung.BillDao().tongsoluong(item.Id);
+                itemmodel.DiaChi = item.DiaChi;
+                itemmodel.TongTien = item.TongTien;
+                itemmodel.Status = item.Duyet;
+                itemmodel.PhiShip = item.PhiShip;
+                itemmodel.TongTienHoaDon = item.TongTien_HoaDon;
+                itemmodel.DaThanhToan = item.DaThanhToan;
+                model.Add(itemmodel);
+            }
+            return View(model);
+        }
+        public ActionResult ChiTietHoaDon_NguoiDung(string mahoadon)
+        {
+            int tinhtrang = 0;
+            var hoadonban = db.HoaDonBans.FirstOrDefault(x => x.Id == mahoadon);
+            if(hoadonban.Duyet == 0)
+            {
+                tinhtrang = 1;
+            }
+            else if(hoadonban.Duyet ==1 && hoadonban.DaThanhToan ==0){
+                tinhtrang = 2;
+            }
+            else if(hoadonban.DaThanhToan ==1 && hoadonban.DaThanhToan==1)
+            {
+                tinhtrang = 3;
+            }
+            ViewBag.TinhTrang = tinhtrang;
+            ViewBag.PhiShip = hoadonban.PhiShip;
+            ViewBag.TongTien_HoaDonBan = hoadonban.TongTien_HoaDon;
+            var model = new List<CTHDBanModel>();
+            var list = db.ChiTietHDBs.Where(x => x.MaHDB == mahoadon).ToList();
+            var i = 0;
+            foreach (var item in list)
+            {
+                var itemmodel = new CTHDBanModel();
+                var loaispdao = new CategoryDao();
+                var product = new ProductDao().getByid(item.MaSanPham);
+                itemmodel.TenSanPham = product.TenSanPham;
+                itemmodel.GiaBan = product.KhuyenMai;
+                itemmodel.SoLuong = item.SoLuong;
+                itemmodel.ThanhTien = item.ThanhTien;
+                if (loaispdao.getSPChinh(item.MaSanPham) == 1)
+                {
+                    i++;
+                    itemmodel.STT = i;
+                }
+                if (product.MaLoaiSanPham != 12 && product.MaLoaiSanPham != 13)
+                {
+                    model.Add(itemmodel);
+                }
+
+            }
+            return View(model);
         }
     }
 }

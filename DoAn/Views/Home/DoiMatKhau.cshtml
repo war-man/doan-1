@@ -29,7 +29,14 @@
                     {
                         <div class="alert alert-danger">@ViewBag.Error</div>
                     }
-
+                        
+                    <div class="row">
+                        <div class="col-md-4">Tên đăng nhập</div>
+                        <div class="col-md-8">
+                            <input type="text" name="name" value="@ViewBag.TenDangNhap" disabled class="form-control"/>
+                        </div>
+                    </div>
+                    <br />
 
                     <div class="form-group row">
                         @Html.LabelFor(model => model.MatKhauCu, htmlAttributes: new { @class = "control-label col-md-4" })

@@ -123,3 +123,17 @@ table {
     position: relative;
     right: 15px;
 }
+.suachitiethdn{
+    color:white;
+    border: 1px solid green;
+    background-color:green;
+    border-radius:4px;
+    padding:2px 10px;
+}
+.xoachitiethdn {
+    color: white;
+    border: 1px solid red;
+    background-color: red;
+    border-radius: 4px;
+    padding: 2px 10px;
+}

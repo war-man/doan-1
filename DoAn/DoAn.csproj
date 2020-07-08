@@ -145,9 +145,9 @@
     <Compile Include="Common\Session\NhanVienSession.cs" />
     <Compile Include="Common\Session\SanPhamThuSession.cs" />
     <Compile Include="Common\Session\UserLogin.cs" />
+    <Compile Include="Controllers\Admin\BaoCaoAdminController.cs" />
     <Compile Include="Controllers\Admin\ChiNhanhAdminController.cs" />
     <Compile Include="Controllers\Admin\DoanhThuAdminController.cs" />
-    <Compile Include="Controllers\Admin\DonViTinhAdminController.cs" />
     <Compile Include="Controllers\Admin\HoaDonBanAdminController.cs" />
     <Compile Include="Controllers\Admin\HoaDonNhapAdminController.cs" />
     <Compile Include="Controllers\Admin\HomeAdminController.cs" />
@@ -163,10 +163,12 @@
     <Compile Include="Controllers\NguoiDung\DanhGiaController.cs" />
     <Compile Include="Controllers\NguoiDung\HomeController.cs" />
     <Compile Include="Controllers\NguoiDung\LoginController.cs" />
+    <Compile Include="Controllers\NguoiDung\NhomSanPhamController.cs" />
     <Compile Include="Controllers\NguoiDung\SanPhamController.cs" />
     <Compile Include="Controllers\NhanVien\BillNhanVienController.cs" />
     <Compile Include="Controllers\NhanVien\HomeNhanVienController.cs" />
     <Compile Include="Controllers\NhanVien\TaiKhoanNhanVienController.cs" />
+    <Compile Include="Controllers\QuanLy\BaoCaoQuanLyController.cs" />
     <Compile Include="Controllers\QuanLy\HomeQuanLyController.cs" />
     <Compile Include="Controllers\QuanLy\TaiKhoanQuanLyController.cs" />
     <Compile Include="Global.asax.cs">
@@ -175,12 +177,10 @@
     <Compile Include="Models\Dao\Admin\CategoryDao.cs" />
     <Compile Include="Models\Dao\Admin\ChiNhanhDao.cs" />
     <Compile Include="Models\Dao\Admin\DoanhThuDao.cs" />
-    <Compile Include="Models\Dao\Admin\DonViTinhDao.cs" />
     <Compile Include="Models\Dao\Admin\HoaDonBanDao.cs" />
     <Compile Include="Models\Dao\Admin\KhachHangDao.cs" />
     <Compile Include="Models\Dao\Admin\KhuyenMaiDao.cs" />
     <Compile Include="Models\Dao\Admin\NguyenLieuDao.cs" />
-    <Compile Include="Models\Dao\Admin\NguyenLieuDonViDao.cs" />
     <Compile Include="Models\Dao\Admin\NhaCungCapDao.cs" />
     <Compile Include="Models\Dao\Admin\NhanVienDao.cs" />
     <Compile Include="Models\Dao\Admin\NhomSanPhamDao.cs" />
@@ -197,13 +197,14 @@
     <Compile Include="Models\Dao\NguoiDung\UserDao.cs" />
     <Compile Include="Models\Dao\NhanVien\CTHDBanDao.cs" />
     <Compile Include="Models\Dao\NhanVien\NhanVienDao.cs" />
+    <Compile Include="Models\Dao\QuanLy\BaoCaoChiNhanhDao.cs" />
     <Compile Include="Models\Dao\QuanLy\NhanVienDao.cs" />
+    <Compile Include="Models\EF\BaoCaoChiNhanh.cs" />
     <Compile Include="Models\EF\BinhLuan.cs" />
     <Compile Include="Models\EF\ChiNhanh.cs" />
     <Compile Include="Models\EF\ChiTietHDB.cs" />
     <Compile Include="Models\EF\ChiTietHDN.cs" />
     <Compile Include="Models\EF\ChucVu.cs" />
-    <Compile Include="Models\EF\DonViTinh.cs" />
     <Compile Include="Models\EF\GioHang.cs" />
     <Compile Include="Models\EF\HoaDonBan.cs" />
     <Compile Include="Models\EF\HoaDonNhap.cs" />
@@ -211,7 +212,6 @@
     <Compile Include="Models\EF\KhuyenMai.cs" />
     <Compile Include="Models\EF\LoaiSanPham.cs" />
     <Compile Include="Models\EF\NguyenLieu.cs" />
-    <Compile Include="Models\EF\NguyenLieu_DonVi.cs" />
     <Compile Include="Models\EF\NhaCungCap.cs" />
     <Compile Include="Models\EF\NhanVien.cs" />
     <Compile Include="Models\EF\PhanHoi.cs" />
@@ -219,6 +219,7 @@
     <Compile Include="Models\EF\SPChinh_Phu.cs" />
     <Compile Include="Models\EF\sysdiagram.cs" />
     <Compile Include="Models\EF\TraSuaEntities.cs" />
+    <Compile Include="Models\Model\Admin\BaoCaoAdminModel.cs" />
     <Compile Include="Models\Model\Admin\ChiNhanhModel.cs" />
     <Compile Include="Models\Model\Admin\CTHDNhapModel.cs" />
     <Compile Include="Models\Model\Admin\DataPoint.cs" />
@@ -247,14 +248,17 @@
     <Compile Include="Models\Model\NhanVien\DoiMatKhauNhanVien.cs" />
     <Compile Include="Models\Model\NhanVien\HoaDonBanModel.cs" />
     <Compile Include="Models\Model\NhanVien\NhanVienModel.cs" />
+    <Compile Include="Models\Model\QuanLy\BaoCaoQuanLyModel.cs" />
     <Compile Include="Models\Model\QuanLy\DoiMatKhauQuanLy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\assets\admin\css\font.css" />
     <Content Include="Content\assets\admin\css\sb-admin-2.css" />
     <Content Include="Content\assets\admin\css\sb-admin-2.min.css" />
     <Content Include="Content\assets\admin\css\style.css" />
     <Content Include="Content\assets\admin\img\undraw_posting_photo.svg" />
+    <Content Include="Content\assets\admin\js\canvasjs.min.js" />
     <Content Include="Content\assets\admin\js\demo\chart-area-demo.js" />
     <Content Include="Content\assets\admin\js\demo\chart-bar-demo.js" />
     <Content Include="Content\assets\admin\js\demo\chart-pie-demo.js" />
@@ -1878,7 +1882,9 @@
     <Content Include="Content\assets\nguoidung\css\aos.css" />
     <Content Include="Content\assets\nguoidung\css\bootstrap.min.css" />
     <Content Include="Content\assets\nguoidung\css\flaticon.css" />
+    <Content Include="Content\assets\nguoidung\css\font-awesome.min.css" />
     <Content Include="Content\assets\nguoidung\css\fontawesome-all.min.css" />
+    <Content Include="Content\assets\nguoidung\css\font_googleapi.css" />
     <Content Include="Content\assets\nguoidung\css\lightslider.min.css" />
     <Content Include="Content\assets\nguoidung\css\magnific-popup.css" />
     <Content Include="Content\assets\nguoidung\css\nice-select.css" />
@@ -2160,6 +2166,7 @@
     <Content Include="Content\assets\nguoidung\js\jquery.easing.min.js" />
     <Content Include="Content\assets\nguoidung\js\jquery.form.js" />
     <Content Include="Content\assets\nguoidung\js\jquery.magnific-popup.js" />
+    <Content Include="Content\assets\nguoidung\js\jquery.min.js" />
     <Content Include="Content\assets\nguoidung\js\jquery.nice-select.min.js" />
     <Content Include="Content\assets\nguoidung\js\jquery.paroller.min.js" />
     <Content Include="Content\assets\nguoidung\js\jquery.scrollUp.min.js" />
@@ -2190,11 +2197,18 @@
     <Content Include="Content\assets\nguoidung\webfonts\fa-brands-400.svg" />
     <Content Include="Content\assets\nguoidung\webfonts\fa-regular-400.svg" />
     <Content Include="Content\assets\nguoidung\webfonts\fa-solid-900.svg" />
+    <Content Include="Content\assets\nhanvien\bootstrap.min.css" />
+    <Content Include="Content\assets\nhanvien\font-awesome.min.css" />
+    <Content Include="Content\assets\nhanvien\jquery.min.js" />
+    <Content Include="Content\assets\nhanvien\popper.min.js" />
     <Content Include="Content\assets\nhanvien\style.css" />
+    <Content Include="Content\assets\quanly\style.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\icon_chinhanh.png" />
+    <Content Include="Content\images\user_binhluan.jpg" />
     <Content Include="Content\neworder.html" />
     <Content Include="Content\images\1.png" />
     <Content Include="Content\images\2.png" />
@@ -2662,6 +2676,15 @@
     <Content Include="Views\HomeQuanLy\TenDangNhap.cshtml" />
     <Content Include="Views\Login\QuenMatKhauNhanVien.cshtml" />
     <Content Include="Views\HomeAdmin\DoiMatKhau.cshtml" />
+    <Content Include="Views\Home\DanhSachHoaDon_KhachHang.cshtml" />
+    <Content Include="Views\Home\ChiTietHoaDon_NguoiDung.cshtml" />
+    <Content Include="Views\NhomSanPham\LstNhomSanPham.cshtml" />
+    <Content Include="Views\SanPham\TopSPBanChay.cshtml" />
+    <Content Include="Views\SanPham\Top4SPBanChay.cshtml" />
+    <Content Include="Views\HomeAdmin\TopSPBanKhongChay.cshtml" />
+    <Content Include="Views\BaoCaoQuanLy\Index.cshtml" />
+    <Content Include="Views\BaoCaoAdmin\Index.cshtml" />
+    <Content Include="Views\DoanhThuAdmin\DoanhThuTheoNgay_ChiNhanh.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

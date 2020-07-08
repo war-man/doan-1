@@ -12,6 +12,7 @@
                 <div class="login_part_text text-center">
                     <div class="login_part_text_iner">
                         <p>Chào mừng bạn đến với cửa hàng</p>
+                        <p>Đăng nhập cho nhân viên cửa hàng</p>
                     </div>
                 </div>
             </div>
@@ -19,26 +20,30 @@
                 <div class="login_part_form">
                     <div class="login_part_form_iner">
                         <h3>
-
                             Đăng nhập ngay
                         </h3>
+                        
                         @using (Html.BeginForm("DangNhapNhanVien", "Login", FormMethod.Post))
                         {
-                            <form class="row contact_form" action="#" method="post" novalidate="novalidate">
-                                <div class="col-md-12 form-group p_star">
-                                    @Html.TextBoxFor(model => model.Username, new { @class = "form-control ", @autofocus = "autofocus" })
-                                </div>
-                                <div class="col-md-12 form-group p_star">
-                                    @Html.PasswordFor(model => model.Password, new { @class = "form-control " })
-                                </div>
-                                <div class="col-md-12 form-group">
+                        <form class="row contact_form" action="#" method="post" novalidate="novalidate">
+                            @if (ViewBag.Error != null)
+                            {
+                                <div class="alert alert-danger">@ViewBag.Error</div>
+                            }
+                            <div class="col-md-12 form-group p_star">
+                                @Html.TextBoxFor(model => model.Username, new { @class = "form-control ", @autofocus = "autofocus" })
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                @Html.PasswordFor(model => model.Password, new { @class = "form-control " })
+                            </div>
+                            <div class="col-md-12 form-group">
 
-                                    <button type="submit" value="submit" class="btn_3">
-                                        Đăng nhập
-                                    </button>
-                                    <a class="lost_pass" href="/Login/QuenMatKhauNhanVien">forget password?</a>
-                                </div>
-                            </form>
+                                <button type="submit" value="submit" class="btn_3">
+                                    Đăng nhập
+                                </button>
+                                <a class="lost_pass" href="/Login/QuenMatKhauNhanVien">forget password?</a>
+                            </div>
+                        </form>
                         }
                     </div>
                 </div>

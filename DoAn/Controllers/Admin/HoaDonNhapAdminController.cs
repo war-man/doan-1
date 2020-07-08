@@ -61,7 +61,7 @@ namespace DoAn.Controllers.Admin
                     item_cthdn.Id = item.Id;
                     item_cthdn.STT = i;
                     item_cthdn.TenNguyenLieu = new NguyenLieuDao().getByid(item.MaNguyenLieu).TenNguyenLieu;
-                    item_cthdn.TenDonViTinh = new DonViTinhDao().getByid(item.MaDonViTinh).TenDonViTinh;
+                    item_cthdn.TenDonViTinh = new NguyenLieuDao().getByid(item.MaNguyenLieu).DonViTinh;
                     item_cthdn.SoLuong = item.SoLuong.ToString();
                     item_cthdn.GiaNhap = item.GiaNhap.ToString();
                     item_cthdn.ChietKhau = item.ChietKhau.ToString();
@@ -121,7 +121,8 @@ namespace DoAn.Controllers.Admin
                         item_cthdn.Id = item.Id;
                         item_cthdn.STT = i;
                         item_cthdn.TenNguyenLieu = new NguyenLieuDao().getByid(item.MaNguyenLieu).TenNguyenLieu;
-                        item_cthdn.TenDonViTinh = new DonViTinhDao().getByid(item.MaDonViTinh).TenDonViTinh;
+                        item_cthdn.TenDonViTinh = new NguyenLieuDao().getByid(item.MaNguyenLieu).DonViTinh;
+                        
                         item_cthdn.SoLuong = item.SoLuong.ToString();
                         item_cthdn.GiaNhap = item.GiaNhap.ToString();
                         item_cthdn.ChietKhau = item.ChietKhau.ToString();
@@ -150,7 +151,8 @@ namespace DoAn.Controllers.Admin
                 var itemmodel = new CTHDNhapModel();
                 i++;
                 itemmodel.TenNguyenLieu = new NguyenLieuDao().getByid(item.MaNguyenLieu).TenNguyenLieu;
-                itemmodel.TenDonViTinh = new DonViTinhDao().getByid(item.MaDonViTinh).TenDonViTinh;
+                itemmodel.TenDonViTinh = new NguyenLieuDao().getByid(item.MaNguyenLieu).DonViTinh;
+                //itemmodel.TenDonViTinh = new DonViTinhDao().getByid(item.MaDonViTinh).TenDonViTinh;
                 itemmodel.GiaNhap = item.GiaNhap.ToString();
                 itemmodel.SoLuong = item.SoLuong.ToString();
                 itemmodel.ChietKhau = item.ChietKhau.ToString();
@@ -173,7 +175,6 @@ namespace DoAn.Controllers.Admin
         public ActionResult CreateCTHDN()
         {
             var model = new CTHDNhapModel();
-            model.SelectDonViTinh = new SelectList(db.DonViTinhs, "Id", "TenDonViTinh", 0);
             model.SelectNguyenLieu = new SelectList(db.NguyenLieux, "Id", "TenNguyenLieu", 0);
             return View(model);
         }
@@ -207,33 +208,19 @@ namespace DoAn.Controllers.Admin
                 cthdn.ThanhTien = cthdn.GiaNhap * cthdn.SoLuong - cthdn.ChietKhau;
                 db.ChiTietHDNs.Add(cthdn);
 
-                var nguyenlieu_donvi = new NguyenLieuDonViDao().getBy_NLId_DVId(model.MaNguyenLieu, model.MaDonViTinh);
-                if (nguyenlieu_donvi != null)
-                {
-                    var nl_dv = db.NguyenLieu_DonVi.Find(nguyenlieu_donvi.Id);
-                    int? soluong = nguyenlieu_donvi.SoLuong;
-                    nl_dv.SoLuong = soluong + cthdn.SoLuong;
-                    nl_dv.GiaNhap = cthdn.GiaNhap;
-                    db.SaveChanges();
-                }
-                else
-                {
-                    var nl_dv = new NguyenLieu_DonVi();
-                    nl_dv.MaNguyenLieu = cthdn.MaNguyenLieu;
-                    nl_dv.MaDonViTinh = cthdn.MaDonViTinh;
-                    nl_dv.SoLuong = cthdn.SoLuong;
-                    nl_dv.GiaNhap = cthdn.GiaNhap;
-                    db.NguyenLieu_DonVi.Add(nl_dv);
-                }
-
-
+                
+               
+                var nguyenlieu = db.NguyenLieux.Find(model.MaNguyenLieu);
+                nguyenlieu.GiaNhap =new DoAn.Common.Function.ConvertMoney().ConvertTien(model.GiaNhap);
+                nguyenlieu.SoLuong = nguyenlieu.SoLuong + new DoAn.Common.Function.ConvertMoney().ConvertTien( model.SoLuong) ;
+                
                 db.SaveChanges();
+
                 return RedirectToAction("CreateHDN", "HoaDonNhapAdmin");
             }
             else
             {
                 var viewmodel = new CTHDNhapModel();
-                viewmodel.SelectDonViTinh = new SelectList(db.DonViTinhs, "Id", "TenDonViTinh", model.MaDonViTinh);
                 viewmodel.SelectNguyenLieu = new SelectList(db.NguyenLieux, "Id", "TenNguyenLieu", model.MaNguyenLieu);
                 viewmodel.SoLuong = model.SoLuong;
 
@@ -249,6 +236,16 @@ namespace DoAn.Controllers.Admin
             cthdn.GiaNhap = convert.ConvertTien(gianhap);
             cthdn.ChietKhau = convert.ConvertTien(chietkhau);
             cthdn.ThanhTien = cthdn.SoLuong * cthdn.GiaNhap - cthdn.ChietKhau;
+            db.SaveChanges();
+            return RedirectToAction("CreateHDN", "HoaDonNhapAdmin");
+        }
+        public ActionResult XoaCTHDN(int id)
+        {
+            var chitiethdn = db.ChiTietHDNs.Find(id);
+            var hoadonnhap = db.HoaDonNhaps.FirstOrDefault(x => x.Id == chitiethdn.MaHDN);
+            var nguyenlieu = db.NguyenLieux.Find(chitiethdn.MaNguyenLieu);
+            nguyenlieu.SoLuong = nguyenlieu.SoLuong - chitiethdn.SoLuong;
+            db.ChiTietHDNs.Remove(chitiethdn);
             db.SaveChanges();
             return RedirectToAction("CreateHDN", "HoaDonNhapAdmin");
         }

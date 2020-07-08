@@ -20,6 +20,13 @@ namespace DoAn.Controllers.Admin
             var session = (DoAn.Common.Session.UserLogin)Session[DoAn.Common.Constants.USER_SESSION];
             if(session != null)
             {
+                var list = db.ChiNhanhs.ToList();
+                string todocacchinhanh = "";
+                foreach(var item in list)
+                {
+                    todocacchinhanh += item.Id.ToString() + "," + item.Lat.ToString() + "," + item.Lng.ToString() + ",0;";
+                }
+                ViewBag.ToDoCacChiNhanh = todocacchinhanh;
                 return View();
             }
             else

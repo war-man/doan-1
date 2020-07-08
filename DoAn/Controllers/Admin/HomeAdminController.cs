@@ -146,6 +146,43 @@ namespace DoAn.Controllers.Admin
 
             return PartialView(listTopProduct.Take(5));
         }
+
+        [ChildActionOnly]
+        public PartialViewResult TopSPBanKhongChay()
+        {
+            var listTopProduct = new List<SanPhamModel>();
+            var list = (from sp in db.SanPhams
+                        join cthdb in db.ChiTietHDBs on sp.Id equals cthdb.MaSanPham
+                        group cthdb by cthdb.MaSanPham into g
+                        select new SanPhamModel
+                        {
+                            Id = g.FirstOrDefault().MaSanPham,
+                            TongSL = g.Sum(x => x.SoLuong),
+
+                        }).OrderBy(x => x.TongSL).ToList();
+            var i = 0;
+            foreach (var item in list)
+            {
+                i++;
+                var itemmodel = new SanPhamModel();
+                itemmodel.STT = i;
+                itemmodel.Id = item.Id;
+                var product = new ProductDao().getByid(item.Id);
+
+                itemmodel.Ten = product.TenSanPham;
+                itemmodel.Anh = product.Anh;
+                itemmodel.TongSL = item.TongSL;
+                if (new CategoryDao().getSPChinh(itemmodel.Id) == 1)
+                {
+                    listTopProduct.Add(itemmodel);
+                }
+
+            }
+
+            return PartialView(listTopProduct.Take(10));
+        }
+
+
         public PartialViewResult HoaDonChuaPheDuyet()
         {
             var hoadonchuapheduyet = db.HoaDonBans.Where(x => x.Duyet == 0).ToList();
@@ -169,6 +206,8 @@ namespace DoAn.Controllers.Admin
         }
         public ActionResult DoiMatKhau()
         {
+            var session = (Common.Session.UserLogin)Session[Common.Constants.USER_SESSION];
+            ViewBag.TenDangNhap = session.UserName;
             return View();
         }
         [HttpPost]

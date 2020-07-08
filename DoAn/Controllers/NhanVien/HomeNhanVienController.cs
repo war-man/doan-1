@@ -191,7 +191,7 @@ namespace DoAn.Controllers.NhanVien
         {
             var session_nhanvien = (DoAn.Common.Session.NhanVienSession)Session[DoAn.Common.Constants.NHANVIEN_SESSION];
             var nhanvien = db.NhanViens.FirstOrDefault(x => x.Id == session_nhanvien.Id);
-            var model = db.HoaDonBans.Where(x => x.MaChiNhanh == nhanvien.MaChiNhanh && x.Duyet == 1 && x.DaThanhToan == 0).ToList();
+            var model = db.HoaDonBans.Where(x => x.MaChiNhanh == nhanvien.MaChiNhanh  && x.DaThanhToan == 0).ToList();
             ViewBag.TongHoaDon = model.Count;
             return PartialView();
         }

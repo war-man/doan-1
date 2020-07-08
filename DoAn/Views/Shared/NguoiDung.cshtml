@@ -10,6 +10,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="~/Content/assets/nguoidung/img/favicon.ico">
 
     <!-- CSS here -->
+    <link href="~/Content/assets/nguoidung/css/font-awesome.min.css" rel="stylesheet" />
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="~/Content/assets/nguoidung/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/Content/assets/nguoidung/css/owl.carousel.min.css">
@@ -23,7 +24,10 @@
     <link rel="stylesheet" href="~/Content/assets/nguoidung/css/nice-select.css">
 
     <link href="~/Content/assets/nguoidung/css/style.css" rel="stylesheet" />
-    <script language="JavaScript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
+    @*<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">*@
+    <link href="~/Content/assets/nguoidung/css/font_googleapi.css" rel="stylesheet" />
+    <script src="~/Content/assets/nguoidung/js/jquery.min.js"></script>
+    @*<script language="JavaScript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>*@
 </head>
 
 <body>
@@ -79,13 +83,13 @@
                             <div class="col-xl-5 col-lg-3 col-md-3 col-sm-3 fix-card">
                                 <ul class="header-right f-right d-none d-lg-block d-flex justify-content-between">
                                     @*<li class="d-none d-xl-block">
-                                        <div class="form-box f-right ">
-                                            <input type="text" name="Search" placeholder="Tìm kiếm sản phẩm">
-                                            <div class="search-icon">
-                                                <i class="fas fa-search special-tag"></i>
+                                            <div class="form-box f-right ">
+                                                <input type="text" name="Search" placeholder="Tìm kiếm sản phẩm">
+                                                <div class="search-icon">
+                                                    <i class="fas fa-search special-tag"></i>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>*@
+                                        </li>*@
 
                                     <li>
                                         @Html.Action("GioHang", "Home")
@@ -263,8 +267,14 @@
             window.location.href = '/Home/PhanHoi?noidung=' + noidung;
         });
     </script>
+    @RenderSection("taohoadonban", required: false)
     @RenderSection("danhgiasanpham", required: false)
-    
+    @RenderSection("sanphamnguoidung", required: false)
+    @RenderSection("sanpham_nguoidung", required: false)
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGDw0EZ0EXdgFdbXAabAifdJ-TP7JV7xc&callback=initMap">
+    </script>
+
 </body>
 </html>
 

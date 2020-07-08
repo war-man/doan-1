@@ -3,33 +3,101 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/NguoiDung.cshtml";
 }
+@using PagedList.Mvc;
+@model PagedList.PagedList<DoAn.Models.Model.Admin.SanPhamModel>
+<div class="container">
 
-<main>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-xs-12  col-sm-12 col-12">
-                <img src="~/Content/images/banner-sanpham.jpg" width="100%" />
+    <div class="row sanpham">
+        <div class="col-md-3 dmsp">
+            @Html.Action("LstNhomSanPham", "NhomSanPham")
+            <br />
+            <br />
+            @Html.Action("Top4SPBanChay", "SanPham")
+        </div>
+        <div class="col-md-9">
+
+            <div class="row">
+                @if (ViewBag.Key == null)
+                {
+                    <input type="text" name="name" value="" id="timkiem_sanpham" class="form-control col-md-10" placeholder="Tìm kiếm sản phẩm" onkeyup="TimKiem()" />
+                }
+                else
+                {
+                    <input type="text" name="name" value="@ViewBag.Key" id="timkiem_sanpham" class="form-control col-md-10"  onkeyup="TimKiem()" />
+                }
+                <div class="col-md-2">
+                    <button class="btn btn-success" id="btn_timkiemsanpham">Tìm kiếm</button>
+                </div>
+
             </div>
+            <hr />
+            <h4>Danh sách sản phẩm cửa hàng</h4>
+            <hr />
+
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-12 ct-sp">
+
+                        <a href="/SanPham/ChiTietSanPham?masanpham=@item.Id">
+                            <img width="100%" src="@Url.Content("/Content/images/"+item.Anh)" />
+                            <span class="ten-sp">@item.Ten</span> <br />
+                            <span class="giaban">@item.GiaBan</span> &nbsp;
+                            <span class="giakm">@item.KhuyenMaiShow</span> &nbsp;
+                            @if (item.PhanTramKM == "0%")
+                            {
+
+                            }
+                            else
+                            {
+                                <span class="khuyenmai">@item.PhanTramKM</span>
+                            }
+                        </a>
+                        <a class="btn btn-success" href="/Home/MuaNgay?productid=@item.Id">Mua Ngay</a>
+                    </div>
+                }
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="phantrang-sp-nguoidung row">
+
+                        @Html.PagedListPager(Model, page => Url.Action("/Index", new { page }))
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+
+            </div>
+
+
+
+
+
+
         </div>
     </div>
-    <div class="main-sp">
-        <div class="container">
-            @Html.Action("Latte", "SanPham")
+</div>
+@section sanpham_nguoidung{
 
-            @Html.Action("DacBietEstore", "SanPham")
+    <script>
+        $('#btn_timkiemsanpham').click(function () {
+            var key = $('#timkiem_sanpham').val();
+            if (key == null) {
+                window.location.href = '/SanPham/Index';
+            } else {
+                window.location.href = '/SanPham/Index?key=' + key;
+            }
+            
+        });
+       
+    </script>    
 
-            @Html.Action("TraSua", "SanPham")
+}
 
-            @Html.Action("TraNguyenChat", "SanPham")
 
-            @Html.Action("SangTao", "SanPham")
 
-            @Html.Action("DaXay", "SanPham")
 
-            @Html.Action("Topping", "SanPham")
 
-        </div>
-    </div>
-</main>
+
 
 

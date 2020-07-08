@@ -29,7 +29,8 @@ namespace DoAn.Models.Dao.Admin
             
             chinhanh.TenChiNhanh =cn.TenChiNhanh;
             chinhanh.DiaChi = cn.DiaChi;
-            
+            chinhanh.Lat = cn.Lat;
+            chinhanh.Lng = cn.Lng;
             db.ChiNhanhs.Add(chinhanh);
             db.SaveChanges();
             return chinhanh.Id;
@@ -40,7 +41,9 @@ namespace DoAn.Models.Dao.Admin
            
             chinhanh.TenChiNhanh= cn.TenChiNhanh;
             chinhanh.DiaChi = cn.DiaChi;
-           
+            chinhanh.Lat = cn.Lat;
+            chinhanh.Lng = cn.Lng;
+
             db.SaveChanges();
             return chinhanh.Id;
         }

@@ -24,5 +24,19 @@ namespace DoAn.Models.Dao.NguoiDung
             db.ChiTietHDBs.Add(cthdb);
             db.SaveChanges();
         }
+        public int tongsoluong(string mahoadonban)
+        {
+            var tongsoluong = 0;
+            var list = db.ChiTietHDBs.Where(x => x.MaHDB == mahoadonban);
+            foreach (var item in list)
+            {
+                if (new CategoryDao().getSPChinh(item.MaSanPham) == 1)
+                {
+                    tongsoluong +=Convert.ToInt32( item.SoLuong);
+                }
+            }
+            return tongsoluong;
+        }
+
     }
 }

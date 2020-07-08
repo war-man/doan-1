@@ -70,19 +70,23 @@
                 <form>
                     <input type="text" class="form-control" id="idchinhanh" placeholder="" style="display:none;" />
                     <div class="form-group row">
-                        <label for="NoiDung" class="col-md-3">Tên sản phẩm</label>
+                        <label for="NoiDung" class="col-md-3">Tên chi nhánh</label>
                         <input type="text" class="form-control col-md-8" id="tenchinhanh" placeholder="tên chi nhánh" />
                         <div class="col-md-1"></div>
                     </div>
 
-                 
+
                     <div class="form-group row">
                         <label for="GiaBan" class="col-md-3">Địa chỉ</label>
-                        <input type="text" class="form-control col-md-8" id="diachichinhanh" placeholder="địa chỉ" />
+                        <input type="text" class="form-control col-md-8" id="diachichinhanh" disabled />
                         <div class="col-md-1"></div>
                     </div>
-
-
+                    <div id="map" style="height:300px;"></div>
+                    <span style="display:none;" id="ds_toado">@ViewBag.ToDoCacChiNhanh</span>
+                    @*1,20.501040, 106.249478,0;2,21.035691930461805,105.8105985435913,0;3,21.022112552495344,105.79553525776366,0;
+                    4,21.005943292479984,105.83499115669193,0;5,20.9677726103831,105.77181404320368,0;*@
+                    <input type="text" name="name" value="" id="lat_chinhanh"  />
+                    <input type="text" name="name" value="" id="lng_chinhanh" />
                 </form>
             </div>
             <div class="modal-footer">
@@ -190,6 +194,8 @@
             var empObj = {
                 TenChiNhanh: $('#tenchinhanh').val(),
                 DiaChi: $('#diachichinhanh').val(),
+                Lat: $('#lat_chinhanh').val(),
+                Lng: $('#lng_chinhanh').val()
                
             };
             $.ajax({
@@ -249,6 +255,8 @@
                 Id : $('#idchinhanh').val(),
                 TenChiNhanh: $('#tenchinhanh').val(),
                 DiaChi: $('#diachichinhanh').val(),
+                Lat: $('#lat_chinhanh').val(),
+                Lng: $('#lng_chinhanh').val()
                 
             };
             $.ajax({
@@ -316,6 +324,181 @@
             }
             return isValid;
         }
+
+
+
+
+
+        var map;
+        var markers = [];
+        var mak_chinhanh;
+        var mak_chinhanhs = [];
+        var lat1 = 21.03744305479058, lng1 = 105.7833194732666, lat_lng
+        var cacchinhanh = [
+
+        ]
+        var ds_toado = $('#ds_toado').text();
+        var ds_toado_split = [];
+        ds_toado_split = ds_toado.split(';');
+        var cacchinhanh = [
+        ]
+
+
+
+        for (var i = 0; i < ds_toado_split.length - 1; i++) {
+            var item_toado_split = ds_toado_split[i].split(',');
+            var toado_object = {
+                id: item_toado_split[0],
+                lat: item_toado_split[1],
+                lng: item_toado_split[2],
+                khoangcach: item_toado_split[3]
+            }
+            cacchinhanh.push(toado_object);
+        }
+        console.log(cacchinhanh);
+        function initMap() {
+            // các chi nhánh
+            var haightAshbury = { lat: 21.03744305479058, lng: 105.7833194732666 };
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 13,
+                center: haightAshbury,
+                mapTypeId: 'terrain'
+            });
+
+
+
+            map.addListener('click', function (event) {
+                addMarker(event.latLng);
+                lat1 = haightAshbury.lat;
+                lng1 = haightAshbury.lng;
+
+            });
+            var iconBase =
+                'https://developers.google.com/maps/documentation/javascript/examples/full/images/';
+
+            var icons = {
+                parking: {
+                    icon: iconBase + 'parking_lot_maps.png'
+                },
+                library: {
+                    icon: iconBase + 'library_maps.png'
+                },
+                info: {
+                    icon: iconBase + 'info-i_maps.png'
+                }
+            };
+
+            var features = [
+                // {
+                //   position: new google.maps.LatLng(21.038227, 105.772123),
+                //   type: 'parking'
+                // }, {
+                //   position: new google.maps.LatLng(21.035691930461805, 105.8105985435913),
+                //   type: 'parking'
+                // }, {
+                //   position: new google.maps.LatLng(21.022112552495344, 105.79553525776366),
+                //   type: 'parking'
+                // }, {
+                //   position: new google.maps.LatLng(21.005943292479984, 105.83499115669193),
+                //   type: 'parking'
+                // }, {
+                //   position: new google.maps.LatLng(21.0677726103831, 105.77181404320368),
+                //   type: 'parking'
+                // }
+
+            ];
+            for (var i = 0; i < ds_toado_split.length - 1; i++) {
+                var item_toado_split = ds_toado_split[i].split(',');
+                var feature_object = {
+                    position: new google.maps.LatLng(item_toado_split[1], item_toado_split[2]),
+                    type: 'parking'
+                }
+                features.push(feature_object);
+            }
+
+            // Create markers.
+            for (var i = 0; i < features.length; i++) {
+                var marker = new google.maps.Marker({
+                    position: features[i].position,
+                    icon: icons[features[i].type].icon,
+                    map: map
+                });
+            };
+
+
+
+
+
+        }
+        function addMarker_ChiNhanh(location) {
+
+            var mak_chinhanh = new google.maps.Marker({
+                position: location,
+                map: map
+            });
+            mak_chinhanhs.push(mak_chinhanh);
+        }
+
+        function addMarker(location) {
+            clearMarkers();
+            var marker = new google.maps.Marker({
+                position: location,
+                map: map
+            });
+            markers.push(marker);
+            lat_lng = location.toString().replace(')', '').replace('(', '');
+            var lat_lng_split = lat_lng.split(',');
+
+            lat1 = lat_lng_split[0];
+            lng1 = lat_lng_split[1];
+
+            var geocoder = new google.maps.Geocoder;
+            var infowindow = new google.maps.InfoWindow;
+            geocodeLatLng(geocoder, map, infowindow);
+
+
+
+           
+            
+
+        }
+
+        function setMapOnAll(map) {
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(map);
+            }
+        }
+
+
+        function clearMarkers() {
+            setMapOnAll(null);
+        }
+
+
+        function geocodeLatLng(geocoder, map, infowindow) {
+            var latlng = { lat: Number(lat1), lng: Number(lng1) };
+            geocoder.geocode({ 'location': latlng }, function (results, status) {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        $('#diachichinhanh').val(results[0].formatted_address);
+                        $('#lat_chinhanh').val(latlng.lat);
+                        $('#lng_chinhanh').val(latlng.lng);
+                        
+                    } else {
+                        window.alert('No results found');
+                    }
+                } else {
+                    window.alert('Geocoder failed due to: ' + status);
+                }
+            });
+        }
+
+
+
+
+
+        
     </script>
 
 }

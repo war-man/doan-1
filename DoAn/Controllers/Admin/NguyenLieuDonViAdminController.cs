@@ -25,26 +25,26 @@ namespace DoAn.Controllers.Admin
         }
         public JsonResult List(string txtSearch, int? page)
         {
-            var list = db.NguyenLieu_DonVi.OrderByDescending(x => x.Id).ToList();
+            
 
             int pageSize = 10;
             
             var data = new List<NguyenLieuDonViModel>();
             int i = 0;
-            foreach (var item in list)
-            {
-                i++;
-                var itemmodel = new NguyenLieuDonViModel();
-                itemmodel.STT = i;
-                itemmodel.Id = item.Id;
-                itemmodel.TenDonVi = db.DonViTinhs.FirstOrDefault(x => x.Id == item.MaDonViTinh).TenDonViTinh;
-                itemmodel.TenNguyenLieu = db.NguyenLieux.FirstOrDefault(x => x.Id == item.MaNguyenLieu).TenNguyenLieu;
+            //foreach (var item in list)
+            //{
+            //    i++;
+            //    var itemmodel = new NguyenLieuDonViModel();
+            //    itemmodel.STT = i;
+            //    itemmodel.Id = item.Id;
+            //    itemmodel.TenDonVi = db.DonViTinhs.FirstOrDefault(x => x.Id == item.MaDonViTinh).TenDonViTinh;
+            //    itemmodel.TenNguyenLieu = db.NguyenLieux.FirstOrDefault(x => x.Id == item.MaNguyenLieu).TenNguyenLieu;
 
-                itemmodel.SoLuong = item.SoLuong;
-                itemmodel.GiaNhap =String.Format("{0:0,0}", item.GiaNhap);
-                data.Add(itemmodel);
+            //    itemmodel.SoLuong = item.SoLuong;
+            //    itemmodel.GiaNhap =String.Format("{0:0,0}", item.GiaNhap);
+            //    data.Add(itemmodel);
 
-            }
+            //}
             if (page > 0)
             {
                 page = page;

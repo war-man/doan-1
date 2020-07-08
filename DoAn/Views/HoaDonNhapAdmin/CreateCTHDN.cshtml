@@ -33,14 +33,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            @Html.LabelFor(model => model.MaDonViTinh, htmlAttributes: new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.DropDownListFor(model => model.MaDonViTinh, Model.SelectDonViTinh, "--------Chọn đơn vị tính----------", new { @class = "form-control " })
-
-                                @Html.ValidationMessageFor(model => model.MaDonViTinh, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
+                       
                         <div class="form-group row ">
                             @Html.LabelFor(model => model.GiaNhap, htmlAttributes: new { @class = "control-label col-md-3" })
                             <div class="col-md-9 ">

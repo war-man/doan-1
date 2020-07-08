@@ -8,7 +8,7 @@ namespace DoAn.Models.Model.NguoiDung
 {
     public class DoiMatKhauNguoiDung
     {
-        [Display(Name = "Mật khẩu")]
+        [Display(Name = "Mật khẩu cũ")]
         [Required(ErrorMessage = "Yêu cầu nhập mật khẩu")]
         public string MatKhauCu { set; get; }
 

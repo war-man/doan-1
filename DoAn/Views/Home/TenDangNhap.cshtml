@@ -8,10 +8,14 @@
 else
 {
     <li class="d-none d-lg-block">
-        <div class="ten-dn">Hello:@session.UserName</div>
+        <div class="ten-dn">
+            <span class="xinchao">xin chào: </span>
+            <span class="xc-tendangnhap">@session.UserName</span>
+        </div>
         <ul class="submenu">
             <li><a href="/Login/Logout">Đăng xuất</a></li>
             <li><a href="/Home/ThongTinTaiKhoan">Thông tin tài khoản</a></li>
+            <li><a href="/Home/DanhSachHoaDon_KhachHang">Hóa đơn của bạn</a></li>
             <li><a href="" data-toggle="modal" data-target="#myModal">Phản hồi</a></li>
         </ul>
     </li>

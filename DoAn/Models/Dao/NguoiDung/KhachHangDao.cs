@@ -30,6 +30,15 @@ namespace DoAn.Models.Dao.NguoiDung
             khachhang.Email = email;
             db.SaveChanges();
         }
+        public void Update_KH(int makhachhang, string hoten, string sdt, string email)
+        {
+            var khachhang = db.KhachHangs.FirstOrDefault(x => x.Id == makhachhang);
+            khachhang.HoTen = hoten;
+           
+            khachhang.SDT = sdt;
+            khachhang.Email = email;
+            db.SaveChanges();
+        }
         public bool CheckEmail(string email, string username)
         {
             return db.KhachHangs.Count(x => x.Email == email && x.TenDangNhap == username) > 0;

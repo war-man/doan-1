@@ -17,6 +17,13 @@ namespace DoAn.Models.Dao.NguoiDung
         // GET: Bill
         public ActionResult CreateBill(int tongtien)
         {
+            var list = db.ChiNhanhs.ToList();
+            string todocacchinhanh = "";
+            foreach (var item in list)
+            {
+                todocacchinhanh += item.Id.ToString() + "," + item.Lat.ToString() + "," + item.Lng.ToString() + ",0;";
+            }
+            ViewBag.ToDoCacChiNhanh = todocacchinhanh;
             ViewBag.TotalMoney = tongtien;
             var session = (DoAn.Common.Session.UserLogin)Session[DoAn.Common.Constants.USER_SESSION];
             var khachhang = new KhachHangDao().getById(session.UserId);
@@ -39,7 +46,7 @@ namespace DoAn.Models.Dao.NguoiDung
                 if (session != null)
                 {
 
-                    new KhachHangDao().Update(session.UserId, model.HoTen, model.DiaChi, model.SDT, model.Email);
+                    new KhachHangDao().Update_KH(session.UserId, model.HoTen, model.SDT, model.Email);
                     // tạo idbill
                     DateTime now = DateTime.Now;
                     var idbill = session.UserId.ToString() + now.Day.ToString() + now.Hour.ToString() + now.Minute.ToString() + now.Second.ToString();
@@ -52,8 +59,11 @@ namespace DoAn.Models.Dao.NguoiDung
                     item.MaNhanVien = 1;
                     item.DaThanhToan = 0;
                     item.Duyet = 0;
+                    item.DiaChi = model.DiaChi;
                     item.TongTien = model.TongTien;
-
+                    item.PhiShip = model.PhiShip;
+                    item.TongTien_HoaDon = model.TongTien + model.PhiShip;
+                    item.MaChiNhanh = model.MaChiNhanh;
 
                     item.NgayBan = now;
 
@@ -78,16 +88,17 @@ namespace DoAn.Models.Dao.NguoiDung
 
 
                     var khachhang = new KhachHangDao().getById(session.UserId);
-                    string content = System.IO.File.ReadAllText(Server.MapPath("~/Content/neworder.html"));
-                    content = content.Replace("{{CustomerName}}", khachhang.HoTen);
-                    content = content.Replace("{{Phone}}", khachhang.SDT);
-                    content = content.Replace("{{Email}}", khachhang.Email);
-                    content = content.Replace("{{Address}}", khachhang.DiaChi);
-                    content = content.Replace("{{Total}}", String.Format("{0:0,0}", model.TongTien));
+                    //string content = System.IO.File.ReadAllText(Server.MapPath("~/Content/neworder.html"));
+                    //content = content.Replace("{{CustomerName}}", khachhang.HoTen);
+                    //content = content.Replace("{{Phone}}", khachhang.SDT);
+                    //content = content.Replace("{{Email}}", khachhang.Email);
+                    //content = content.Replace("{{Address}}", khachhang.DiaChi);
+                    //content = content.Replace("{{Total}}", String.Format("{0:0,0}", model.TongTien));
 
                     try
                     {
-                        //var toEmail = ConfigurationManager.AppSettings["ToEmailAddress"].ToString();
+                        //ConfigurationManager.AppSettings["ToEmailAddress"]
+                        //var toEmail = "bang12a12a1@gmail.com";
                         //new MailHelper().SendMail(khachhang.Email, "Đơn hàng mới từ Estore", content);
                         //new MailHelper().SendMail(toEmail, "Đơn hàng mới từ Estore", content);
 
@@ -103,8 +114,8 @@ namespace DoAn.Models.Dao.NguoiDung
                         viewmodel.HoTen = khachhang.HoTen;
                         viewmodel.SDT = khachhang.SDT;
                         viewmodel.Email = khachhang.Email;
-                       
-                        ViewBag.Success = "Bạn vừa đặt hàng thành công, kiếm tra email của bạn";
+                        viewmodel.PhiShip = model.PhiShip;
+                        ViewBag.Success = "Bạn vừa đặt hàng thành công";
                         return View(viewmodel);
                     }
                     catch (Exception e)

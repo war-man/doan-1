@@ -12,11 +12,11 @@ namespace DoAn.Models.EF
         {
         }
 
+        public virtual DbSet<BaoCaoChiNhanh> BaoCaoChiNhanhs { get; set; }
         public virtual DbSet<BinhLuan> BinhLuans { get; set; }
         public virtual DbSet<ChiNhanh> ChiNhanhs { get; set; }
         public virtual DbSet<ChiTietHDB> ChiTietHDBs { get; set; }
         public virtual DbSet<ChiTietHDN> ChiTietHDNs { get; set; }
-        public virtual DbSet<DonViTinh> DonViTinhs { get; set; }
         public virtual DbSet<GioHang> GioHangs { get; set; }
         public virtual DbSet<HoaDonBan> HoaDonBans { get; set; }
         public virtual DbSet<HoaDonNhap> HoaDonNhaps { get; set; }
@@ -24,7 +24,6 @@ namespace DoAn.Models.EF
         public virtual DbSet<KhuyenMai> KhuyenMais { get; set; }
         public virtual DbSet<LoaiSanPham> LoaiSanPhams { get; set; }
         public virtual DbSet<NguyenLieu> NguyenLieux { get; set; }
-        public virtual DbSet<NguyenLieu_DonVi> NguyenLieu_DonVi { get; set; }
         public virtual DbSet<NhaCungCap> NhaCungCaps { get; set; }
         public virtual DbSet<NhanVien> NhanViens { get; set; }
         public virtual DbSet<PhanHoi> PhanHois { get; set; }

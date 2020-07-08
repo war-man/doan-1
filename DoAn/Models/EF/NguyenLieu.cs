@@ -13,6 +13,11 @@ namespace DoAn.Models.EF
 
         public string TenNguyenLieu { get; set; }
 
-        public string MoTa { get; set; }
+        [StringLength(50)]
+        public string DonViTinh { get; set; }
+
+        public int? GiaNhap { get; set; }
+
+        public int? SoLuong { get; set; }
     }
 }

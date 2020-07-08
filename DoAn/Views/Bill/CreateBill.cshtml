@@ -4,97 +4,320 @@
     ViewBag.Title = "CreateBill";
     Layout = "~/Views/Shared/NguoiDung.cshtml";
 }
-
+<hr />
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-   
+    <div class="form-horizontal">
 
 
 
 
-    <div class="main-createproduct row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8 mcp-content">
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <hr />
 
-            @if (ViewBag.Error != null)
-            {
-                <div class="alert alert-danger">@ViewBag.Error</div>
-            }
-
-            @if (ViewBag.Success != null)
-            {
-                <div class="alert alert-success">@ViewBag.Success</div>
-            }
-
-            <div class="div-totalmoneybill row">
-                <span class="col-md-3">Giá trị đơn hàng</span>
-                <div class="col-md-9">
-                    <input type="text" name="name" value="@String.Format("{0:0,0}", @ViewBag.TotalMoney)đ" disabled class=" form-control" />
+        <div class="main-createproduct row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5 mcp-content">
+                <div class="thongtindonhang">
+                    <span>Thông tin đơn hàng</span>
                 </div>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            </div>
-            <br />
 
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger">@ViewBag.Error</div>
+                }
 
-            <div class="form-group row">
-                @Html.LabelFor(model => model.HoTen, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-9">
-                    @Html.TextBoxFor(model => model.HoTen, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.HoTen, "", new { @class = "text-danger" })
+                @if (ViewBag.Success != null)
+                {
+                    <div class="alert alert-success">@ViewBag.Success</div>
+                }
+
+                <div class="div-totalmoneybill row">
+                    <span class="col-md-3">Tổng tiền</span>
+                    <div class="col-md-9">
+                        <input type="text" name="name" value="@String.Format("{0:0,0}", @ViewBag.TotalMoney)đ" disabled class=" form-control" />
+                    </div>
+
                 </div>
-            </div>
+                <br />
 
-            <div class="form-group row">
-                @Html.LabelFor(model => model.DiaChi, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-9">
-                    @Html.TextBoxFor(model => model.DiaChi, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.DiaChi, "", new { @class = "text-danger" })
-                </div>
-            </div>
 
-            <div class="form-group row">
-                @Html.LabelFor(model => model.SDT, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-9">
-                    @Html.TextBoxFor(model => model.SDT, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.SDT, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group row">
-                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-9">
-                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            
-            @if (ViewBag.Success != null)
-            {
-                <div class="form-group mcp-bottom">
-                    <div class="row">
-                        <div class="col-md-4"></div>
-                        <div class="col-md-4"><a href="/SanPham/Index" class="btn btn-primary">Tiếp tục mua hàng</a></div>
-                        <div class="col-md-4"></div>
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.HoTen, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(model => model.HoTen, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.HoTen, "", new { @class = "text-danger" })
                     </div>
                 </div>
-            }
-            else
-            {
-                <div class="form-group mcp-bottom">
-                    <div class="row">
-                        <div class="col-md-4"></div>
-                        <input type="submit" value="Xác nhận đơn hàng" class="btn btn-primary col-md-4" />
-                        <div class="col-md-4"></div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.DiaChi, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(model => model.DiaChi, new { htmlAttributes = new { @class = "form-control" }, @class = "form-control", @style = "display:none", @id = "diachi" })
+                        <input type="text" name="" value="" id="diachi1" class="form-control" disabled/>
+                        @Html.ValidationMessageFor(model => model.DiaChi, "", new { @class = "text-danger" })
                     </div>
                 </div>
-            }
+
+                @Html.TextBoxFor(model => model.MaChiNhanh, new { htmlAttributes = new { @class = "form-control" }, @class = "form-control", @style = "display:none", @id = "machinhanh" })
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.PhiShip, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(model => model.PhiShip, new { htmlAttributes = new { @class = "form-control" }, @class = "form-control", @style = "display:none", @id = "phiship" })
+                        <input type="text" name="" value="" id="phiship1" class="form-control" disabled/>
+                        @Html.ValidationMessageFor(model => model.PhiShip, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+               
+
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.SDT, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(model => model.SDT, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SDT, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @if (ViewBag.Success != null)
+                {
+                    <div class="form-group mcp-bottom">
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4"><a href="/SanPham/Index" class="btn btn-primary">Tiếp tục mua hàng</a></div>
+                            <div class="col-md-4"></div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group mcp-bottom">
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <input type="submit" value="Xác nhận đơn hàng" class="btn btn-primary col-md-4" />
+                            <div class="col-md-4"></div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-md-5">
+                <h3>Mời chọn vị trí của bạn</h3>
+                <div id="map"></div>
+                <span style="display:none;" id="ds_toado">@ViewBag.ToDoCacChiNhanh</span>
+            </div>
+            <div class="col-md-1"></div>
+
         </div>
-        <div class="col-md-2"></div>
-
     </div>
-</div>
+}
+@section taohoadonban{
+
+    <script>
+        var map;
+        var markers = [];
+        var mak_chinhanh;
+        var mak_chinhanhs = [];
+        var lat1 = 21.03744305479058, lng1 = 105.7833194732666, lat_lng;
+        
+        var ds_toado = $('#ds_toado').text();
+        var ds_toado_split = [];
+        ds_toado_split = ds_toado.split(';');
+        var cacchinhanh = [
+        ]
+
+
+
+        for (var i = 0; i < ds_toado_split.length - 1; i++) {
+            var item_toado_split = ds_toado_split[i].split(',');
+            var toado_object = {
+                id: item_toado_split[0],
+                lat: item_toado_split[1],
+                lng: item_toado_split[2],
+                khoangcach: item_toado_split[3]
+            }
+            cacchinhanh.push(toado_object);
+        }
+        function initMap() {
+            // các chi nhánh
+            var haightAshbury = { lat: 21.03744305479058, lng: 105.7833194732666 };
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 13,
+                center: haightAshbury,
+                mapTypeId: 'terrain'
+            });
+
+
+
+            map.addListener('click', function (event) {
+                addMarker(event.latLng);
+                lat1 = haightAshbury.lat;
+                lng1 = haightAshbury.lng;
+
+            });
+            var iconBase =
+                'https://developers.google.com/maps/documentation/javascript/examples/full/images/';
+
+            var icons = {
+                parking: {
+                    icon: /*'/Content/images/icon_chinhanh.png' */  iconBase + 'parking_lot_maps.png'
+                },
+                library: {
+                    icon: iconBase + 'library_maps.png'
+                },
+                info: {
+                    icon: iconBase + 'info-i_maps.png'
+                }
+            };
+
+            var features = [
+                
+            ];
+            for (var i = 0; i < ds_toado_split.length - 1; i++) {
+                var item_toado_split = ds_toado_split[i].split(',');
+                var feature_object = {
+                    position: new google.maps.LatLng(item_toado_split[1], item_toado_split[2]),
+                    type: 'library'
+                }
+                features.push(feature_object);
+            }
+
+            // Create markers.
+            for (var i = 0; i < features.length; i++) {
+                var marker = new google.maps.Marker({
+                    position: features[i].position,
+                    icon: icons[features[i].type].icon,
+                    map: map
+                });
+            };
+
+
+
+
+
+        }
+        function addMarker_ChiNhanh(location) {
+
+            var mak_chinhanh = new google.maps.Marker({
+                position: location,
+                map: map
+            });
+            mak_chinhanhs.push(mak_chinhanh);
+        }
+
+        function addMarker(location) {
+            clearMarkers();
+            var marker = new google.maps.Marker({
+                position: location,
+                map: map
+            });
+            markers.push(marker);
+            lat_lng = location.toString().replace(')', '').replace('(', '');
+            var lat_lng_split = lat_lng.split(',');
+
+            lat1 = lat_lng_split[0];
+            lng1 = lat_lng_split[1];
+
+            var geocoder = new google.maps.Geocoder;
+            var infowindow = new google.maps.InfoWindow;
+            geocodeLatLng(geocoder, map, infowindow);
+
+
+
+            for (var i = 0; i < cacchinhanh.length; i++) {
+                cacchinhanh[i].khoangcach = tinhkhoangcach(lat1, lng1, cacchinhanh[i].lat, cacchinhanh[i].lng);
+            }
+            var min = cacchinhanh[0].khoangcach;
+            for (var i = 1; i < cacchinhanh.length; i++) {
+                if (min > cacchinhanh[i].khoangcach) {
+                    min = cacchinhanh[i].khoangcach;
+                }
+            }
+            for (var i = 0; i < cacchinhanh.length; i++) {
+                if (min == cacchinhanh[i].khoangcach) {
+                    
+                    $('#machinhanh').val(cacchinhanh[i].id);
+                    if (Math.round(cacchinhanh[i].khoangcach) >= 0 && Math.round(cacchinhanh[i].khoangcach) <= 1) {
+                        $('#phiship').val('0');
+                        $('#phiship1').val('free ship');
+
+                    }
+                    else if (Math.round(cacchinhanh[i].khoangcach) > 1 && Math.round(cacchinhanh[i].khoangcach) < 3) {
+                        $('#phiship').val('15000');
+                        $('#phiship1').val('15,000đ');
+                    }
+                    else {
+                        $('#phiship').val('25000');
+                        $('#phiship1').val('25,000đ');
+
+                    }
+
+
+                    
+                }
+            }
+
+        }
+
+        function setMapOnAll(map) {
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(map);
+            }
+        }
+
+
+        function clearMarkers() {
+            setMapOnAll(null);
+        }
+
+
+        function geocodeLatLng(geocoder, map, infowindow) {
+            var latlng = { lat: Number(lat1), lng: Number(lng1) };
+            geocoder.geocode({ 'location': latlng }, function (results, status) {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        $('#diachi').val(results[0].formatted_address);
+                        $('#diachi1').val(results[0].formatted_address);
+                    } else {
+                        window.alert('No results found');
+                    }
+                } else {
+                    window.alert('Geocoder failed due to: ' + status);
+                }
+            });
+        }
+
+
+
+
+
+        function tinhkhoangcach(lat1, lon1, lat2, lon2) {
+            var R = 6371; // Radius of the earth in km
+            var dLat = deg2rad(lat2 - lat1);  // deg2rad below
+            var dLon = deg2rad(lon2 - lon1);
+            var a =
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2)
+                ;
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            var d = R * c; // Distance in km
+            return d;
+        }
+
+        function deg2rad(deg) {
+            return deg * (Math.PI / 180)
+        }
+    </script>
 }

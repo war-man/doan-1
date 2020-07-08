@@ -7,7 +7,6 @@
 @model DoAn.Models.Model.Admin.HoaDonBanModel
 <div class="container">
     <div class="danhsachsanpham">
-
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-8 row">
@@ -45,9 +44,9 @@
                     <th width="15%">
                         Tổng tiền
                     </th>
-                    <th width="15%">
+                    @*<th width="15%">
                         Duyệt
-                    </th>
+                    </th>*@
                    
 
                 </tr>
@@ -67,8 +66,9 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" id="closemodalsanpham" data-dismiss="modal">×</button>
                 <h4 class="modal-title" id="myModalLabel">Phê duyệt hóa đơn</h4>
+                <button type="button" class="close" id="closemodalsanpham" data-dismiss="modal">×</button>
+
             </div>
             <div class="modal-body">
                 <form>
@@ -147,18 +147,22 @@
                         html += '<td width="20%">' + item.DiaChi + '</td>';
                         html += '<td width="15%">' + item.SDT + '</td>';
                         
-                        if (item.KhuyenMai == "") {
-                            html += '<td width="15%" >0</td>';
-                        } else {
-                            html += '<td width="15%" >' + item.KhuyenMai + 'đ</td>';
-                        }
+                        //if (item.KhuyenMai == "") {
+                        //    html += '<td width="15%" >0</td>';
+                        //} else if (item.KhuyenMai ==0) {
+                        //    html += '<td width="15%" >0</td>';
+                        //}
+                        //else {
+                        //    html += '<td width="15%" >' + item.KhuyenMai + 'đ</td>';
+                        //}
+                        html += '<td width="15%" >0</td>';
                         html += '<td width="15%" >' + item.TongTienShow + 'đ</td>';
-                        if (item.Status == 0) {
-                            html += '<td width="15%">  <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#modalsanpham"  onclick="getbyID(' + item.Id + ')">Duyệt</a> </td>';
-                        }
-                        else {
-                            html += '<td width="15%" class="btn-success">đã duyệt</td>';
-                        }
+                        //if (item.Status == 0) {
+                        //    html += '<td width="15%">  <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#modalsanpham"  onclick="getbyID(' + item.Id + ')">Duyệt</a> </td>';
+                        //}
+                        //else {
+                        //    html += '<td width="15%" class="btn-success">đã duyệt</td>';
+                        //}
                         
                         html += '</tr>';
                         var pagination_string = "";

@@ -16,11 +16,16 @@ namespace DoAn.Models.EF
 
         public int? MaKhach { get; set; }
 
+        [StringLength(500)]
+        public string DiaChi { get; set; }
+
         public DateTime? NgayBan { get; set; }
 
-        public int? GiamGia { get; set; }
+        public int? PhiShip { get; set; }
 
         public int? TongTien { get; set; }
+
+        public int? TongTien_HoaDon { get; set; }
 
         public int? DaThanhToan { get; set; }
 

@@ -23,7 +23,7 @@ namespace DoAn.Models.Model.NguoiDung
         [Display(Name = "Mã Giảm Giá")]
         public int MaGiamGia { set; get; }
 
-        [Required(ErrorMessage = "Yêu cầu nhập địa chỉ")]
+        
         [Display(Name = "Địa Chỉ")]
         public string DiaChi { set; get; }
 
@@ -41,7 +41,7 @@ namespace DoAn.Models.Model.NguoiDung
 
         public SelectList SelectChiNhanh { set; get; }
 
-        [Required(ErrorMessage = "Mời chọn chi nhánh gần nhất")]
+        
         [Display(Name = "Chi Nhánh")]
         public int MaChiNhanh { set; get; }
 
@@ -59,5 +59,11 @@ namespace DoAn.Models.Model.NguoiDung
         public int? TongTienDaMua { set; get; }
 
         public int? TongSoHoaDon { set; get; }
+        public int? TongSoSanPham { set; get; }
+
+        [Display(Name = "Phí ship")]
+        public int? PhiShip { set; get; }
+
+        public int? TongTienHoaDon { set; get; }
     }
 }

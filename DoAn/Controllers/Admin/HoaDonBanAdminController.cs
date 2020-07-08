@@ -52,7 +52,6 @@ namespace DoAn.Controllers.Admin
                 itemmodel.TenDangNhap = khachhang.TenDangNhap;
                 itemmodel.DiaChi = khachhang.DiaChi;
                 itemmodel.SDT = khachhang.SDT;
-                itemmodel.KhuyenMai = String.Format("{0:0,0}",item.GiamGia);
                 itemmodel.TongTienShow =String.Format("{0:0,0}",item.TongTien);
                 itemmodel.Status = item.Duyet;
                 itemmodel.DaThanhToan = item.DaThanhToan;
@@ -100,7 +99,6 @@ namespace DoAn.Controllers.Admin
                 itemmodel.TenDangNhap = khachhang.TenDangNhap;
                 itemmodel.DiaChi = khachhang.DiaChi;
                 itemmodel.SDT = khachhang.SDT;
-                itemmodel.KhuyenMai = String.Format("{0:0,0}", item.GiamGia);
                 itemmodel.TongTienShow = String.Format("{0:0,0}", item.TongTien);
                 itemmodel.Status = item.Duyet;
                 itemmodel.DaThanhToan = item.DaThanhToan;

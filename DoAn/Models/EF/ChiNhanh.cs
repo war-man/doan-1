@@ -15,6 +15,12 @@ namespace DoAn.Models.EF
 
         public string DiaChi { get; set; }
 
+        [StringLength(50)]
+        public string Lat { get; set; }
+
+        [StringLength(50)]
+        public string Lng { get; set; }
+
         public string GhiChu { get; set; }
     }
 }

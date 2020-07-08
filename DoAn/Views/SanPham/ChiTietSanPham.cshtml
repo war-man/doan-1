@@ -7,6 +7,9 @@
 
 @model List<DoAn.Models.Model.NguoiDung.DanhGiaModel>
 <div class="container">
+    <div class="title-ctsanpham">
+        <span>CHI TIẾT SẢN PHẨM</span>
+    </div>
     <div class="row">
         <div class="col-xl-3 col-md-3 ctsp-left">
             <img src="@Url.Content("~/Content/images/"+product.Anh)" />
@@ -22,6 +25,7 @@
 
             </div>
             <br />
+            
             <div class="ctsp-danhgiasao">
                 <div class="danhgiasao">
                     <span class="title">Đánh giá sản phẩm của người dùng</span>
@@ -128,56 +132,108 @@
         </div>
         <div class="col-xl-4 col-md-4 ctsp-right">
             <br />
-            <div class="binhluancuaban">
-                <div class="title">
-                    <span>Bình luận của bạn</span>
-                </div>
-                <div class="content">
-
-                    <div class="stars">
-                        <form action="">
-                            <input class="star star-5" id="star-5" type="radio" name="star" value="5" />
-                            <label class="star star-5" for="star-5"></label>
-                            <input class="star star-4" id="star-4" type="radio" name="star" value="4" />
-                            <label class="star star-4" for="star-4"></label>
-                            <input class="star star-3" id="star-3" type="radio" name="star" value="3" />
-                            <label class="star star-3" for="star-3"></label>
-                            <input class="star star-2" id="star-2" type="radio" name="star" value="2" />
-                            <label class="star star-2" for="star-2"></label>
-                            <input class="star star-1" id="star-1" type="radio" name="star" value="1" />
-                            <label class="star star-1" for="star-1"></label>
-                        </form>
-                    </div>
-                    <textarea id="text-noidung" rows="3" class="form-control"></textarea>
-                    <input type="text" name="name" value="" id="input-star" style="display:none;" />
-                    <input type="text" name="input-masanpham" value="@product.Id" style="display:none;" id="input-masanpham" /> <br />
-                    <button class="btn btn-primary" id="btn-danhgia">Đánh giá </button>
-                </div>
+            <br />
+            <div class="mota-sanpham">
+                @product.MoTa
             </div>
-
         </div>
 
-        <div class="col-xl-8 col-md-8">
+        <div class="col-xl-10 col-md-10">
             <div class="danhsachbinhluan">
-                <div class="title">
-                    <span>Nhận xét của khách hàng về sản phẩm</span>
+                @if (ViewBag.Session_User == 1)
+                {
+                    <div class="binhluan-sanpham">
+
+                        <div>
+
+                            <div class="title">
+                                <span>Nhận xét và đánh giá</span>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-1 anhdaidien">
+                                    <img src="~/Content/images/user_binhluan.jpg" alt="Alternate Text" />
+                                </div>
+                                <div class="col-md-10">
+                                    <div class="binhluancuaban">
+
+                                        <div class="content">
+
+                                            <div class="stars">
+                                                <form action="">
+                                                    <input class="star star-5" id="star-5" type="radio" name="star" value="5" />
+                                                    <label class="star star-5" for="star-5"></label>
+                                                    <input class="star star-4" id="star-4" type="radio" name="star" value="4" />
+                                                    <label class="star star-4" for="star-4"></label>
+                                                    <input class="star star-3" id="star-3" type="radio" name="star" value="3" />
+                                                    <label class="star star-3" for="star-3"></label>
+                                                    <input class="star star-2" id="star-2" type="radio" name="star" value="2" />
+                                                    <label class="star star-2" for="star-2"></label>
+                                                    <input class="star star-1" id="star-1" type="radio" name="star" value="1" />
+                                                    <label class="star star-1" for="star-1"></label>
+                                                </form>
+                                            </div>
+                                            <textarea id="text-noidung" rows="3" class="form-control" placeholder="Nhập nội dung"></textarea>
+                                            <input type="text" name="name" value="" id="input-star" style="display:none;" />
+                                            <input type="text" name="input-masanpham" value="@product.Id" style="display:none;" id="input-masanpham" /> <br />
+                                            <button class="btn btn-primary" id="btn-danhgia">Đánh giá </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                }
+                    <br />
+                @if(Model.Count > 0)
+                {
+                    <div class="ds-binhluan">
+                        @foreach (var item in Model)
+                        {
+                            <div class="row">
+                                <div class="col-md-1 anhdaidien">
+                                    <img src="~/Content/images/user_binhluan.jpg" alt="Alternate Text" />
+                                </div>
+
+                                <div class="col-md-9 dsbinhluan-tendangnhap">@item.TenDangNhap</div>
+                                <div class="col-md-2">@item.ThoiGian</div>
+                            </div>
+                            <br />
+                            <div>
+                                @item.NoiDung
+                            </div>
+                            <hr />
+                        }
+                    </div>
+                }
+                else
+                {
+                    <span>Không có bình luận nào</span>
+                }
+
+                    @*<table width="100%" class="table table-condensed table-dsbinhluan">
+                @foreach (var item in Model)
+                {
+                    <tr width="100%">
+                        <td width="10%">
+                            <img src="~/Content/images/user_binhluan.jpg" alt="Alternate Text" />
+                        </td>
+                        <td width="20%"><span>@item.TenDangNhap</span></td>
+                        <td width="50%"><span>@item.NoiDung</span></td>
+                        <td width="15%"><span>@item.ThoiGian </span></td>
+                    </tr>
+                }
+
+
+            </table>*@
                 </div>
-                <table width="100%" class="table table-condensed">
-                    @foreach (var item in Model)
-                    {
-                        <tr width="100%">
-                            <td width="20%"><span>@item.TenDangNhap</span></td>
-                            <td width="60%"><span>@item.NoiDung</span></td>
-                            <td width="20%"><span>@item.ThoiGian </span></td>
-                        </tr>
-                    }
-
-
-                </table>
-            </div>
         </div>
     </div>
 </div>
+<br />
 @section danhgiasanpham{
     <script>
 

@@ -10,13 +10,13 @@
         <thead width="100%">
             <tr>
 
-                <th width="15%"> TÊN SẢN PHẨM</th>
-                <th width="10%"> HÌNH ẢNH</th>
-                <th width="10%">  SỐ LƯỢNG</th>
-                <th width="10%"> ĐƠN GIÁ</th>
-                <th width="15%"> THÀNH TIỀN</th>
-                <th width="10%"> MÔ TẢ</th>
-                <th width="20%">CHỨC NĂNG</th>
+                <th width="20%"> Tên sản phẩm</th>
+                <th width="10%"> Hình ảnh</th>
+                <th width="10%">  Số lượng</th>
+                <th width="10%"> Đơn giá</th>
+                <th width="15%"> Thành tiền</th>
+                <th width="25%"> Mô tả</th>
+                <th width="20%">Chức năng</th>
             </tr>
         </thead>
         <tbody>
@@ -24,13 +24,13 @@
             {
             <tr>
 
-                <td width="15%"><span class="cl-cart-tensp"> @item.TenSanPham</span></td>
+                <td width="20%"><span class="cl-cart-tensp"> @item.TenSanPham</span></td>
                 <td width="10%">  <img src="@Url.Content("~/Content/images/"+@item.Anh)" alt="" width="100" height="100" /></td>
 
                 <td width="10%" class="cl-center">
                     <button class="btn-cl-tru" onclick="UpdateTru(@item.MaSanPham, @item.SanPhamThu)">-</button>
                     <input type="text" name="@item.MaSanPham" value="@item.SoLuong" id="SoLuong_@item.MaSanPham" disabled class="cl-input-soluong" />
-                    <button class="btn-cl-tru" onclick="UpdateCong(@item.MaSanPham, @item.SanPhamThu)">+</button>
+                    <button class="btn-cl-cong" onclick="UpdateCong(@item.MaSanPham, @item.SanPhamThu)">+</button>
                 </td>
 
 
@@ -39,7 +39,7 @@
                 <td width="10%" class="cl-center">@String.Format("{0:0,0}", @item.ThanhTien)đ</td>
                 <td width="25%">@item.MoTa</td>
                 
-                <td width="20%">
+                <td width="20%" class="cl-center">
                     <button class="btn btn-danger" onclick="DeleteCart(@item.MaSanPham, @item.SanPhamThu)">Xóa</button>
 
                 </td>

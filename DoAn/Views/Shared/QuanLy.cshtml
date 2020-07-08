@@ -3,10 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Nhân Viên</title>
+    <title>Quản lý</title>
 
     <link href="~/Content/assets/admin/css/style.css" rel="stylesheet" />
     <link href="~/Content/assets/nhanvien/style.css" rel="stylesheet" />
+    <link href="~/Content/assets/quanly/style.css" rel="stylesheet" />
     <!-- Jquery -->
     <link href="~/Content/assets/nguoidung/css/style.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -27,7 +28,7 @@
                 @Html.Action("TenChiNhanh", "HomeNhanVien")
                 <div class="top-right col-md-3">
                     <div class="header-menu">
-                        
+
 
                         <div class="user-area dropdown float-right">
                             @Html.Action("TenDangNhap", "HomeQuanLy")
@@ -35,14 +36,28 @@
 
                     </div>
                 </div>
+
+
             </header>
         </div>
     </div>
-
+    <div class="quanly">
+        <div class="container">
+            <ul>
+                <li>
+                    <a href="/HomeQuanLy/Index">Nhân viên</a>
+                </li>
+                <li>
+                    <a href="/BaoCaoQuanLy/Index">Báo cáo</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 
 
     @RenderBody()
     @RenderSection("locsanpham", required: false)
     @RenderSection("nhanvienquanly", required: false)
+    @RenderSection("baocaochinhanh", required: false)
 </body>
 </html>

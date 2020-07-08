@@ -41,9 +41,9 @@
                             <td width="13%" class="table-center"><input type="text" name="hdn" value="@String.Format("{0:0,0}",Convert.ToInt32(item.ChietKhau))" style="width:100%;" id="ChietKhauCTHDN_@item.Id" /></td>
                             <td width="15%" class="table-center">@String.Format("{0:0,0}", item.ThanhTien)đ</td>
                             <td width="20%">
-                                <button class="" onclick="SuaChiTietHDN(@item.Id)">sửa</button>
+                                <button class="suachitiethdn" onclick="SuaChiTietHDN(@item.Id)">sửa</button>
 
-                                <button class="">xóa</button>
+                                <button class="xoachitiethdn" onclick="XoaChiTietHDN(@item.Id)">xóa</button>
                             </td>
                         </tr>
                     }
@@ -136,6 +136,9 @@
 
             window.location.href = '/HoaDonNhapAdmin/SuaCTHDN?id=' + id + '&soluong=' + soluong + '&gianhap=' + gianhap + '&chietkhau=' + chietkhau;
 
+        }
+        function XoaChiTietHDN(id) {
+            window.location.href = '/HoaDonNhapAdmin/XoaCTHDN?id=' + id;
         }
     </script>
 }

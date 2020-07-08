@@ -44,7 +44,19 @@ namespace DoAn.Controllers.NguoiDung
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        var giohang = db.GioHangs.Where(x => x.MaKhachHang == user.Id);
+                        int i = 0;
+                        foreach(var item in giohang)
+                        {
+                            if(new Models.Dao.Admin.CategoryDao().getSPChinh(item.MaSanPham) == 1)
+                            {
+                                i++;
+                            }
+                        }
+                        var sanphamthu = new SanPhamThuSession();
+                        sanphamthu.SanPham_Thu = i;
+                        Session.Add(Common.Constants.SANPHAMTHU_SESSION, sanphamthu);
+                        return RedirectToAction("Index", "SanPham");
                     }
 
                 }
@@ -175,10 +187,10 @@ namespace DoAn.Controllers.NguoiDung
                 }
                 else
                 {
-                    ModelState.AddModelError("", "đăng nhập không đúng");
+                    ViewBag.Error = "Tên đăng nhập hoặc mật khẩu không đúng";
                 }
             }
-            return RedirectToAction("DangNhapNhanVien", "Login");
+            return View("DangNhapNhanVien");
         }
         public ActionResult QuenMatKhauNhanVien()
         {
@@ -209,9 +221,6 @@ namespace DoAn.Controllers.NguoiDung
                 {
                     ViewBag.Error = "Email bạn nhập không hợp lệ";
                 }
-
-
-
             }
             else
             {

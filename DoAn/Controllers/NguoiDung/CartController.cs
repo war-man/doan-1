@@ -34,9 +34,9 @@ namespace DoAn.Controllers.NguoiDung
                         cartitem.Anh = product.Anh;
                         cartitem.SoLuong = item.SoLuong;
                         cartitem.SanPhamThu = item.SanPhamThu;
-                        cartitem.GiaBan = new CartDao().Tien1LyTraSua(session.UserId, product.Id);
+                        cartitem.GiaBan = new CartDao().Tien1LyTraSua(session.UserId, product.Id, item.SanPhamThu);
                         cartitem.ThanhTien = cartitem.GiaBan * cartitem.SoLuong;
-                        cartitem.MoTa = new CartDao().getMoTa(product.Id, session.UserId);
+                        cartitem.MoTa = new CartDao().getMoTa(product.Id, session.UserId, item.SanPhamThu);
                         list.Add(cartitem);
                     }
 
@@ -122,6 +122,10 @@ namespace DoAn.Controllers.NguoiDung
                     }
                     
                 }
+                var session_sanphamthu = (Common.Session.SanPhamThuSession)Session[Common.Constants.SANPHAMTHU_SESSION];
+                var sp_thu = new Common.Session.SanPhamThuSession();
+                sp_thu.SanPham_Thu = session_sanphamthu.SanPham_Thu - 1;
+                Session.Add(Common.Constants.SANPHAMTHU_SESSION, sp_thu);
             }
             return RedirectToAction("Index");
         }

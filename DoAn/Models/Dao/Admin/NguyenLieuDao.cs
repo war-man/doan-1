@@ -27,7 +27,7 @@ namespace DoAn.Models.Dao.Admin
             var nguyenlieu = new NguyenLieu();
 
             nguyenlieu.TenNguyenLieu = nl.TenNguyenLieu;
-            
+            nguyenlieu.DonViTinh = nl.DonViTinh;
             db.NguyenLieux.Add(nguyenlieu);
             db.SaveChanges();
             return nguyenlieu.Id;
@@ -37,7 +37,7 @@ namespace DoAn.Models.Dao.Admin
             var nguyenlieu = db.NguyenLieux.Find(nl.Id);
 
             nguyenlieu.TenNguyenLieu = nl.TenNguyenLieu;
-           
+            nguyenlieu.DonViTinh = nl.DonViTinh;
             db.SaveChanges();
             return nguyenlieu.Id;
         }
